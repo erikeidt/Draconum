@@ -80,7 +80,7 @@ namespace com.erikeidt.Draconum
 			var target = ThenPart.GetBranchTarget ();
 			if ( target != null )
 			{
-				Condition.GenerateCodeForConditionalBranch ( context, target, false );
+				Condition.GenerateCodeForConditionalBranch ( context, target, true );
 				ElsePart?.GenerateCode ( context );
 			}
 			else if ( ElsePart == null )

@@ -11,6 +11,7 @@
  *
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -40,6 +41,8 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 2004, "for(;;) { if ( a && b ) { c=1; break; } }" );
 
 			Test ( 2005, "for(;;) { a = 1; break; }" );
+
+			Test ( 3000, "for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }" );
 
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
@@ -81,7 +84,14 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 				{
 					using ( var context = new CodeGenContext ( tw ) )
 					{
-						result.Result.GenerateCode ( context );
+						try
+						{
+							result.Result.GenerateCode ( context );
+						}
+						catch ( Exception ex )
+						{
+							System.Console.WriteLine ( ex );
+						}
 					}
 				}
 				tw.WriteLine ();

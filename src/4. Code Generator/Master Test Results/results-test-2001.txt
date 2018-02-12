@@ -20,9 +20,9 @@ results-test-2001.txt: Parse End on line 1 (character offset 41)
 #	for statement
 L0:
 	PUSH	a
-	BEQ	L3
+	B.FALSE	L3
 	PUSH	b
-	BEQ	L3
+	B.FALSE	L3
 	PUSH	#1
 	POP	c
 	JUMP	L2

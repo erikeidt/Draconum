@@ -20,9 +20,9 @@ results-test-1002.txt: Parse End on line 1 (character offset 40)
                     +---num: '2'
 
 	PUSH	a
-	BNE	L1
+	B.TRUE	L1
 	PUSH	b
-	BEQ	L0
+	B.FALSE	L0
 L1:
 	PUSH	#1
 	POP	c

@@ -71,7 +71,7 @@ namespace com.erikeidt.Draconum
 		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel target, bool reverse )
 		{
 			if ( reverse )
-				context.EvalEither ( Left, Right, target, false );
+				context.EvalEither ( Left, Right, target, true );
 			else
 				context.EvalBoth ( Left, Right, target, false );
 		}
@@ -110,11 +110,69 @@ namespace com.erikeidt.Draconum
 		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel target, bool reverse )
 		{
 			if ( reverse )
-				context.EvalBoth ( Left, Right, target, false );
+				context.EvalBoth ( Left, Right, target, true );
 			else
 				context.EvalEither ( Left, Right, target, false );
 		}
 	}
 
+	partial class LessThanTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.LessThan, label, reverse );
+		}
+	}
 
+	partial class LessOrEqualTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.LessOrEqual, label, reverse );
+		}
+	}
+
+	partial class NotEqualTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.NotEqual, label, reverse );
+		}
+	}
+
+	partial class EqualEqualTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.Equal, label, reverse );
+		}
+	}
+
+	partial class GreaterOrEqualTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.GreaterOrEqual, label, reverse );
+		}
+	}
+
+	partial class GreaterThanTreeNode
+	{
+		public override void GenerateCodeForConditionalBranch ( CodeGenContext context, BranchTargetLabel label, bool reverse )
+		{
+			Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+			context.GenerateConditionalCompareAndBranch ( CodeGenContext.OrderingRelation.GreaterThan, label, reverse );
+		}
+	}
 }

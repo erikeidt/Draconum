@@ -19,6 +19,8 @@ namespace com.erikeidt.Draconum
 {
 	class CodeGenContext : IDisposable
 	{
+		public enum OrderingRelation { LessThan, LessOrEqual, NotEqual, Equal, GreaterOrEqual, GreaterThan };
+
 		private readonly List<bool> _labelList = new List<bool> ();
 		private readonly System.IO.TextWriter _output;
 		private int _nextLabelId;
@@ -60,12 +62,19 @@ namespace com.erikeidt.Draconum
 
 		public void GenerateConditionalBranch ( BranchTargetLabel label, bool reverse )
 		{
-			_output.WriteLine ( "\t{0}\tL{1}",  reverse ? "BNE" : "BEQ", label.Id );
+			_output.WriteLine ( "\t{0}\tL{1}", reverse ? "B.TRUE" : "B.FALSE", label.Id );
+		}
+
+		public void GenerateConditionalCompareAndBranch ( OrderingRelation type, BranchTargetLabel label, bool reverse )
+		{
+
+			string [] fwd = { "B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT" };
+			_output.WriteLine ( "\t{0}\tL{1}", reverse ? fwd [ 5 - (int) type ] : fwd [ (int) type ], label.Id );
 		}
 
 		public void InsertComment ( string comment )
 		{
-			_output.WriteLine ( "#\t{0}",  comment );
+			_output.WriteLine ( "#\t{0}", comment );
 		}
 
 		public void EvalEither ( AbstractSyntaxTree left, AbstractSyntaxTree right, BranchTargetLabel target, bool reverse )
