@@ -9,7 +9,7 @@ This generated code sequence highlights several features:
 	------ Test: 1002 ------		if ( a || b ) { c = 1; } else { d = 2; }
 
 	if ( a || b ) { c = 1; } else { d = 2; }
-											^
+	                                        ^
 	results-test-1002.txt: Parse End on line 1 (character offset 40)
 
 		+---If-Then-Else Statement
@@ -47,7 +47,7 @@ branched to by the && operator test within the if-statement.
 	------ Test: 3001 ------		for ( i = 0; i < 100; i++ ) { if ( a[i] != 32 && a[i] != 64 ) break; }
 
 	for ( i = 0; i < 100; i++ ) { if ( a[i] != 32 && a[i] != 64 ) break; }
-																		  ^
+	                                                                      ^
 	results-test-3001.txt: Parse End on line 1 (character offset 70)
 
 		+---For Statement
