@@ -1,0 +1,16 @@
+------ Test: 3011 ------		f(a,b,c,d)
+
+f(a,b,c,d)
+          ^
+results-test-3011.txt: Parse End on line 1 (character offset 10)
+
+    +---binop: 'FunctionCall'
+        +---Var: 'f'
+        +---binop: 'ArgumentSeparator'
+            +---binop: 'ArgumentSeparator'
+            |   +---binop: 'ArgumentSeparator'
+            |   |   +---Var: 'a'
+            |   |   +---Var: 'b'
+            |   +---Var: 'c'
+            +---Var: 'd'
+

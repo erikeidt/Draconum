@@ -1,0 +1,33 @@
+------ Test: 2001 ------		for(;;) { if ( a && b ) { c=1; break; } }
+
+for(;;) { if ( a && b ) { c=1; break; } }
+                                         ^
+results-test-2001.txt: Parse End on line 1 (character offset 41)
+
+    +---For Statement
+        +---Body	Block Statement
+            +---If-Then Statement
+                +---Condition	binop: 'ShortCircutAnd'
+                |   +---Var: 'a'
+                |   +---Var: 'b'
+                +---ThenPart	Block Statement
+                    +---Expression Statement
+                    |   +---binop: 'Assignment'
+                    |       +---Var: 'c'
+                    |       +---num: '1'
+                    +---Break Statement
+
+#	for statement
+L0:
+	PUSH	a
+	BEQ	L3
+	PUSH	b
+	BEQ	L3
+	PUSH	#1
+	POP	c
+	JUMP	L2
+L3:
+L1:
+	JUMP	L0
+L2:
+

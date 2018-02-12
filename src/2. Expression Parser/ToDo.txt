@@ -1,0 +1,75 @@
+﻿
+/*
+ *
+ * Copyright (c) 2012-2018, Erik L. Eidt
+ * All rights Reserved.
+ * 
+ * Author: Erik L. Eidt
+ * Created: 09-10-2012
+ *
+ * License: No License: no permissions are granted to use, modify, or share this content. See COPYRIGHT.md for more details.
+ */
+
+x	properly handle terminating characters
+x	and decide expression parse if we're consuming those characters or not (answer: not)
+x		if ( expr )			<--- this close ) doesn't belong to the expression
+x		case expr :			<--- this : doesn't belong to the expression
+x		expr,				<--- in an (initializer or variable declaration) list
+x		expr;				<--- handled by defacto that ; is not an operator
+
+x	handle comma operator inside other constructs:
+x		f(a,b)				<--- comma here is argument separator (and not expression separator)
+x		f((a,b))			<--- comma here is expression separator (and not argument separator)
+x		a ? b,c : d;		<--- here the comma is expression separator not argument separator
+x		a[b,c];				<--- comma here is argument separator (and not expression separator)
+									depending on language...
+
+x	enhance tree dump
+
+->	accurate error location -- sometimes we've advanced the token, and error messages come out one character too far
+
+->	test literals
+x		string literals
+x			with escape sequences
+x		character literals 
+x			with escape sequences
+x		numbers
+			number bases
+				hex constants
+				octal constants
+		unicode characters (e.g. > 0x7F)
+			identifiers
+			strings
+			whitespace
+
+->	implement
+			typed numeric constants
+				long integers
+				floating point numbers
+					that start with .
+					that have exponent
+->	language-specific operations
+		types 
+			with generic arguments
+			cast operator
+			new operators
+			sizeof
+		fields
+
+->	capture test output
+		and compare to expected / manually checked
+
+---
+
+Eventually,
+
+->	statements
+		declarations
+			variable
+			function
+		control flow
+		scoping
+
+->	code generation
+
+->	optimization

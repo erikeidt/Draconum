@@ -1,0 +1,12 @@
+------ Test: 3007 ------		f((a,b))
+
+f((a,b))
+        ^
+results-test-3007.txt: Parse End on line 1 (character offset 8)
+
+    +---binop: 'FunctionCall'
+        +---Var: 'f'
+        +---binop: 'ExpressionSeparator'
+            +---Var: 'a'
+            +---Var: 'b'
+

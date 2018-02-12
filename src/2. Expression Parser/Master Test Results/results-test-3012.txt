@@ -1,0 +1,16 @@
+------ Test: 3012 ------		f((a,b,c),d)
+
+f((a,b,c),d)
+            ^
+results-test-3012.txt: Parse End on line 1 (character offset 12)
+
+    +---binop: 'FunctionCall'
+        +---Var: 'f'
+        +---binop: 'ArgumentSeparator'
+            +---binop: 'ExpressionSeparator'
+            |   +---binop: 'ExpressionSeparator'
+            |   |   +---Var: 'a'
+            |   |   +---Var: 'b'
+            |   +---Var: 'c'
+            +---Var: 'd'
+

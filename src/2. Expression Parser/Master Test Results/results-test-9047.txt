@@ -1,0 +1,9 @@
+------ Test: 9047 ------		"hello\nthere"
+
+"hello\nthere"
+              ^
+results-test-9047.txt: Parse End on line 1 (character offset 14)
+
+    +---string: "hello
+there"
+

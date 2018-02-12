@@ -1,0 +1,5 @@
+
+	high-quality error messages
+
+	error recovery & continue
+		which requires capturing errors without throwing exceptions

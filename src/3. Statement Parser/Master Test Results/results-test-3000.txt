@@ -1,0 +1,9 @@
+------ Test: 3000 ------		for (;;) ;
+
+for (;;) ;
+          ^
+results-test-3000.txt: Parse End on line 1 (character offset 10)
+
+    +---For Statement
+        +---Body	Empty Statement
+

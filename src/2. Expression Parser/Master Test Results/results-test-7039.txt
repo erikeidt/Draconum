@@ -1,0 +1,9 @@
+------ Test: 7039 ------		-404
+
+-404
+    ^
+results-test-7039.txt: Parse End on line 1 (character offset 4)
+
+    +---unop: 'Negation'
+        +---num: '404'
+

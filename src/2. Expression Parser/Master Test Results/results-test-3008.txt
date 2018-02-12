@@ -1,0 +1,10 @@
+------ Test: 3008 ------		f()
+
+f()
+   ^
+results-test-3008.txt: Parse End on line 1 (character offset 3)
+
+    +---binop: 'FunctionCall'
+        +---Var: 'f'
+        +---<empty>
+

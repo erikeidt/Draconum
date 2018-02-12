@@ -1,0 +1,11 @@
+------ Test: 7037 ------		"abc
+
+"abc
+    ^
+results-test-7037.txt: Unterminated String at EOF on line 1 (character offset 4)
+"abc
+    ^
+results-test-7037.txt: Parse End on line 1 (character offset 4)
+
+Unterminated String at EOF
+

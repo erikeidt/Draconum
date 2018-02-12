@@ -1,0 +1,22 @@
+------ Test: 2005 ------		for(;;) { a = 1; break; }
+
+for(;;) { a = 1; break; }
+                         ^
+results-test-2005.txt: Parse End on line 1 (character offset 25)
+
+    +---For Statement
+        +---Body	Block Statement
+            +---Expression Statement
+            |   +---binop: 'Assignment'
+            |       +---Var: 'a'
+            |       +---num: '1'
+            +---Break Statement
+
+#	for statement
+L0:
+	PUSH	#1
+	POP	a
+	JUMP	L2
+L1:
+L2:
+

@@ -1,0 +1,12 @@
+------ Test: 9048 ------		'
+'
+
+'
+ ^
+results-test-9048.txt: Literal not terminated by end of line on line 2 (character offset 1)
+'
+ ^
+results-test-9048.txt: Parse End on line 2 (character offset 1)
+
+Literal not terminated by end of line
+

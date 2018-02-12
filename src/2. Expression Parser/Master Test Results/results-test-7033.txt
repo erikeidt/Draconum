@@ -1,0 +1,8 @@
+------ Test: 7033 ------		123
+
+123
+   ^
+results-test-7033.txt: Parse End on line 1 (character offset 3)
+
+    +---num: '123'
+

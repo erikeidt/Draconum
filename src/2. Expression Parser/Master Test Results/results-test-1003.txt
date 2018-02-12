@@ -1,0 +1,13 @@
+------ Test: 1003 ------		a?b,c:d
+
+a?b,c:d
+       ^
+results-test-1003.txt: Parse End on line 1 (character offset 7)
+
+    +---ternop: 'TernaryChoice'
+        +---Var: 'a'
+        +---binop: 'ExpressionSeparator'
+        |   +---Var: 'b'
+        |   +---Var: 'c'
+        +---Var: 'd'
+

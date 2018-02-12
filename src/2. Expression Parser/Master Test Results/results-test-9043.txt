@@ -1,0 +1,10 @@
+------ Test: 9043 ------		a/* comment */+/*comment*/b
+
+a/* comment */+/*comment*/b
+                           ^
+results-test-9043.txt: Parse End on line 1 (character offset 27)
+
+    +---binop: 'Addition'
+        +---Var: 'a'
+        +---Var: 'b'
+

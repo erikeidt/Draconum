@@ -1,0 +1,11 @@
+------ Test: 3241 ------		a[b,c]
+
+a[b,c]
+   ^
+results-test-3241.txt: unmatched '[' on line 1 (character offset 3)
+a[b,c]
+    ^
+results-test-3241.txt: Parse End on line 1 (character offset 4)
+
+unmatched '['
+

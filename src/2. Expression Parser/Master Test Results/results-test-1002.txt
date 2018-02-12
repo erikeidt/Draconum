@@ -1,0 +1,11 @@
+------ Test: 1002 ------		a?b:c
+
+a?b:c
+     ^
+results-test-1002.txt: Parse End on line 1 (character offset 5)
+
+    +---ternop: 'TernaryChoice'
+        +---Var: 'a'
+        +---Var: 'b'
+        +---Var: 'c'
+

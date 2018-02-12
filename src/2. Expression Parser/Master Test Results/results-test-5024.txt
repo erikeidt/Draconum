@@ -1,0 +1,11 @@
+------ Test: 5024 ------		a)
+
+a)
+ ^
+results-test-5024.txt: unexpected ')' on line 1 (character offset 1)
+a)
+  ^
+results-test-5024.txt: Parse End on line 1 (character offset 2)
+
+unexpected ')'
+

@@ -1,0 +1,16 @@
+------ Test: 2004 ------		if ( a && b ) { c = 1; } { d = 2; }
+
+if ( a && b ) { c = 1; } { d = 2; }
+                         ^
+results-test-2004.txt: Parse End on line 1 (character offset 25)
+
+    +---If-Then Statement
+        +---Condition	binop: 'ShortCircutAnd'
+        |   +---Var: 'a'
+        |   +---Var: 'b'
+        +---ThenPart	Block Statement
+            +---Expression Statement
+                +---binop: 'Assignment'
+                    +---Var: 'c'
+                    +---num: '1'
+

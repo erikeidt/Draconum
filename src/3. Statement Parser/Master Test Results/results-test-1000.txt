@@ -1,0 +1,8 @@
+------ Test: 1000 ------		;
+
+;
+ ^
+results-test-1000.txt: Parse End on line 1 (character offset 1)
+
+    +---Empty Statement
+

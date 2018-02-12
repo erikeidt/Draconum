@@ -1,0 +1,11 @@
+------ Test: 5021 ------		a:b
+
+a:b
+ ^
+results-test-5021.txt: unexpected : (no matching ?) on line 1 (character offset 1)
+a:b
+  ^
+results-test-5021.txt: Parse End on line 1 (character offset 2)
+
+unexpected : (no matching ?)
+

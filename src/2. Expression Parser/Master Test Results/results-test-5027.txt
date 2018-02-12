@@ -1,0 +1,14 @@
+------ Test: 5027 ------		(a,b),(c,d)
+
+(a,b),(c,d)
+           ^
+results-test-5027.txt: Parse End on line 1 (character offset 11)
+
+    +---binop: 'ExpressionSeparator'
+        +---binop: 'ExpressionSeparator'
+        |   +---Var: 'a'
+        |   +---Var: 'b'
+        +---binop: 'ExpressionSeparator'
+            +---Var: 'c'
+            +---Var: 'd'
+

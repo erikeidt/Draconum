@@ -1,0 +1,9 @@
+------ Test: 9042 ------		// hello
+4
+
+4
+ ^
+results-test-9042.txt: Parse End on line 2 (character offset 1)
+
+    +---num: '4'
+

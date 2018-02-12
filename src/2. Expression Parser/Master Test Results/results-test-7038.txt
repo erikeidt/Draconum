@@ -1,0 +1,8 @@
+------ Test: 7038 ------		""
+
+""
+  ^
+results-test-7038.txt: Parse End on line 1 (character offset 2)
+
+    +---string: ""
+

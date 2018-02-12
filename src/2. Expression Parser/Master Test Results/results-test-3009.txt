@@ -1,0 +1,14 @@
+------ Test: 3009 ------		f()+g()
+
+f()+g()
+       ^
+results-test-3009.txt: Parse End on line 1 (character offset 7)
+
+    +---binop: 'Addition'
+        +---binop: 'FunctionCall'
+        |   +---Var: 'f'
+        |   +---<empty>
+        +---binop: 'FunctionCall'
+            +---Var: 'g'
+            +---<empty>
+

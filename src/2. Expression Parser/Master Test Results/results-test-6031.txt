@@ -1,0 +1,11 @@
+------ Test: 6031 ------		;
+
+;
+^
+results-test-6031.txt: unrecognized token: ; on line 1 (character offset 0)
+;
+^
+results-test-6031.txt: Parse End on line 1 (character offset 0)
+
+unrecognized token: ;
+

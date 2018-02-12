@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<StartupObject>com.erikeidt.Draconum.CodeGeneratorTest.Program</StartupObject>
+		<RootNamespace>com.erikeidt.Draconum</RootNamespace>
+		<AssemblyName>Draconum Code Generator</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\2. Expression Parser\Expression Parser Library\**\*.cs">
+			<Link>Expression Parser Library-Linked\%(RecursiveDir)%(FileName)</Link>
+		</Compile>
+		<Compile Include="..\3. Statement Parser\Statement Parser Library\**\*.cs">
+			<Link>Statement Parser Library-Linked\%(RecursiveDir)%(FileName)</Link>
+		</Compile>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Master Test Results\" />
+	</ItemGroup>
+
+</Project>

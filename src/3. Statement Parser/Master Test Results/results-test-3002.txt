@@ -1,0 +1,11 @@
+------ Test: 3002 ------		for (;;)
+
+for (;;)
+        ^
+results-test-3002.txt: expected statement on line 1 (character offset 8)
+for (;;)
+        ^
+results-test-3002.txt: Parse End on line 1 (character offset 8)
+
+expected statement
+

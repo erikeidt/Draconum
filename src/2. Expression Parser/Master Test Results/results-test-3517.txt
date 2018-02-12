@@ -1,0 +1,12 @@
+------ Test: 3517 ------		a=b+c
+
+a=b+c
+     ^
+results-test-3517.txt: Parse End on line 1 (character offset 5)
+
+    +---binop: 'Assignment'
+        +---Var: 'a'
+        +---binop: 'Addition'
+            +---Var: 'b'
+            +---Var: 'c'
+

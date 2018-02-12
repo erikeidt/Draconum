@@ -1,0 +1,10 @@
+﻿
+	semantic error checking
+	
+	symbol table, scope, variable resolution
+
+	declarations
+
+	functions
+
+	classes

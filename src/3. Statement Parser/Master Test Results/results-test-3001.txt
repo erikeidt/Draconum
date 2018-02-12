@@ -1,0 +1,15 @@
+------ Test: 3001 ------		for (;;) { if ( a ) b=1; }
+
+for (;;) { if ( a ) b=1; }
+                          ^
+results-test-3001.txt: Parse End on line 1 (character offset 26)
+
+    +---For Statement
+        +---Body	Block Statement
+            +---If-Then Statement
+                +---Condition	Var: 'a'
+                +---ThenPart	Expression Statement
+                    +---binop: 'Assignment'
+                        +---Var: 'b'
+                        +---num: '1'
+

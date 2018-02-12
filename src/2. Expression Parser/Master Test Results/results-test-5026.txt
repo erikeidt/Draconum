@@ -1,0 +1,10 @@
+------ Test: 5026 ------		a,b
+
+a,b
+   ^
+results-test-5026.txt: Parse End on line 1 (character offset 3)
+
+    +---binop: 'ExpressionSeparator'
+        +---Var: 'a'
+        +---Var: 'b'
+

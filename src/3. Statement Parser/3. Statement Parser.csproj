@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>Exe</OutputType>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<StartupObject>com.erikeidt.Draconum.StatementParserTest.Program</StartupObject>
+		<RootNamespace>com.erikeidt.Draconum</RootNamespace>
+		<AssemblyName>Draconum Statement Parser</AssemblyName>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Include="..\2. Expression Parser\Expression Parser Library\**\*.cs">
+			<Link>Expression Parser Library-Linked\%(RecursiveDir)%(FileName)</Link>
+		</Compile>
+	</ItemGroup>
+
+</Project>

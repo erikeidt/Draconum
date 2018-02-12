@@ -1,0 +1,25 @@
+------ Test: 2001 ------		if ( one > two ) { abc=one+1; } else { def=two+2; }
+
+if ( one > two ) { abc=one+1; } else { def=two+2; }
+                                                   ^
+results-test-2001.txt: Parse End on line 1 (character offset 51)
+
+    +---If-Then-Else Statement
+        +---Condition	binop: 'GreaterThan'
+        |   +---Var: 'one'
+        |   +---Var: 'two'
+        +---ThenPart	Block Statement
+        |   +---Expression Statement
+        |       +---binop: 'Assignment'
+        |           +---Var: 'abc'
+        |           +---binop: 'Addition'
+        |               +---Var: 'one'
+        |               +---num: '1'
+        +---ElsePart	Block Statement
+            +---Expression Statement
+                +---binop: 'Assignment'
+                    +---Var: 'def'
+                    +---binop: 'Addition'
+                        +---Var: 'two'
+                        +---num: '2'
+

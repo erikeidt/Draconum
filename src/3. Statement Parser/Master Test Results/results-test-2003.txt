@@ -1,0 +1,11 @@
+------ Test: 2003 ------		if ( test )
+
+if ( test )
+           ^
+results-test-2003.txt: expected statement on line 1 (character offset 11)
+if ( test )
+           ^
+results-test-2003.txt: Parse End on line 1 (character offset 11)
+
+expected statement
+

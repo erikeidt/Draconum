@@ -1,0 +1,10 @@
+------ Test: 3240 ------		a[b]
+
+a[b]
+    ^
+results-test-3240.txt: Parse End on line 1 (character offset 4)
+
+    +---binop: 'Subscript'
+        +---Var: 'a'
+        +---Var: 'b'
+

@@ -1,0 +1,19 @@
+------ Test: 2000 ------		if ( test ) { a=1; } else { b=2; }
+
+if ( test ) { a=1; } else { b=2; }
+                                  ^
+results-test-2000.txt: Parse End on line 1 (character offset 34)
+
+    +---If-Then-Else Statement
+        +---Condition	Var: 'test'
+        +---ThenPart	Block Statement
+        |   +---Expression Statement
+        |       +---binop: 'Assignment'
+        |           +---Var: 'a'
+        |           +---num: '1'
+        +---ElsePart	Block Statement
+            +---Expression Statement
+                +---binop: 'Assignment'
+                    +---Var: 'b'
+                    +---num: '2'
+

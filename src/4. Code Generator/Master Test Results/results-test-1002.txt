@@ -1,0 +1,34 @@
+------ Test: 1002 ------		if ( a || b ) { c = 1; } else { d = 2; }
+
+if ( a || b ) { c = 1; } else { d = 2; }
+                                        ^
+results-test-1002.txt: Parse End on line 1 (character offset 40)
+
+    +---If-Then-Else Statement
+        +---Condition	binop: 'ShortCircutOr'
+        |   +---Var: 'a'
+        |   +---Var: 'b'
+        +---ThenPart	Block Statement
+        |   +---Expression Statement
+        |       +---binop: 'Assignment'
+        |           +---Var: 'c'
+        |           +---num: '1'
+        +---ElsePart	Block Statement
+            +---Expression Statement
+                +---binop: 'Assignment'
+                    +---Var: 'd'
+                    +---num: '2'
+
+	PUSH	a
+	BNE	L1
+	PUSH	b
+	BEQ	L0
+L1:
+	PUSH	#1
+	POP	c
+	JUMP	L2
+L0:
+	PUSH	#2
+	POP	d
+L2:
+

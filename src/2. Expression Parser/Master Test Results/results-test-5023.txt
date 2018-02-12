@@ -1,0 +1,8 @@
+------ Test: 5023 ------	)	a
+
+a
+ ^
+results-test-5023.txt: Parse End on line 1 (character offset 1)
+
+    +---Var: 'a'
+

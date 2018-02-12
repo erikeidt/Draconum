@@ -1,0 +1,12 @@
+------ Test: 6030 ------		a=b+c;
+
+a=b+c;
+     ^
+results-test-6030.txt: Parse End on line 1 (character offset 5)
+
+    +---binop: 'Assignment'
+        +---Var: 'a'
+        +---binop: 'Addition'
+            +---Var: 'b'
+            +---Var: 'c'
+

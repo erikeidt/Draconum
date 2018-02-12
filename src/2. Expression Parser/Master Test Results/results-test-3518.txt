@@ -1,0 +1,12 @@
+------ Test: 3518 ------		a+=b*c
+
+a+=b*c
+      ^
+results-test-3518.txt: Parse End on line 1 (character offset 6)
+
+    +---binop: 'AssignmentAddition'
+        +---Var: 'a'
+        +---binop: 'Multiplication'
+            +---Var: 'b'
+            +---Var: 'c'
+

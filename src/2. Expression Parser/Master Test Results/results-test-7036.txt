@@ -1,0 +1,11 @@
+------ Test: 7036 ------		'II'
+
+'II'
+^
+results-test-7036.txt: too many characters in character literal on line 1 (character offset 0)
+'II'
+    ^
+results-test-7036.txt: Parse End on line 1 (character offset 4)
+
+too many characters in character literal
+

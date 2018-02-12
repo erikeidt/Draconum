@@ -1,0 +1,18 @@
+------ Test: 2002 ------		{ if ( test ) a=1; b=2; }
+
+{ if ( test ) a=1; b=2; }
+                         ^
+results-test-2002.txt: Parse End on line 1 (character offset 25)
+
+    +---Block Statement
+        +---If-Then Statement
+        |   +---Condition	Var: 'test'
+        |   +---ThenPart	Expression Statement
+        |       +---binop: 'Assignment'
+        |           +---Var: 'a'
+        |           +---num: '1'
+        +---Expression Statement
+            +---binop: 'Assignment'
+                +---Var: 'b'
+                +---num: '2'
+

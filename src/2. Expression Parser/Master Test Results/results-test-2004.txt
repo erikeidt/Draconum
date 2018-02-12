@@ -1,0 +1,14 @@
+------ Test: 2004 ------		(a)+b*c-d
+
+(a)+b*c-d
+         ^
+results-test-2004.txt: Parse End on line 1 (character offset 9)
+
+    +---binop: 'Subtraction'
+        +---binop: 'Addition'
+        |   +---Var: 'a'
+        |   +---binop: 'Multiplication'
+        |       +---Var: 'b'
+        |       +---Var: 'c'
+        +---Var: 'd'
+

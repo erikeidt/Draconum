@@ -1,0 +1,10 @@
+------ Test: 9044 ------		abcdef=ghijkl
+
+abcdef=ghijkl
+             ^
+results-test-9044.txt: Parse End on line 1 (character offset 13)
+
+    +---binop: 'Assignment'
+        +---Var: 'abcdef'
+        +---Var: 'ghijkl'
+

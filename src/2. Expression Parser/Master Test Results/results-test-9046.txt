@@ -1,0 +1,8 @@
+------ Test: 9046 ------		abc def
+
+abc def
+    ^
+results-test-9046.txt: Parse End on line 1 (character offset 4)
+
+    +---Var: 'abc'
+

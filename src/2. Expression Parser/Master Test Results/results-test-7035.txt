@@ -1,0 +1,11 @@
+------ Test: 7035 ------		''
+
+''
+^
+results-test-7035.txt: not enough characters in character literal on line 1 (character offset 0)
+''
+  ^
+results-test-7035.txt: Parse End on line 1 (character offset 2)
+
+not enough characters in character literal
+

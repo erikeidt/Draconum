@@ -1,0 +1,8 @@
+------ Test: 9049 ------		'\n'
+
+'\n'
+    ^
+results-test-9049.txt: Parse End on line 1 (character offset 4)
+
+    +---char: '10'
+
