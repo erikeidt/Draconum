@@ -45,5 +45,10 @@ Future endeavors
 * Function & Type Declarations
 * Scoping Symbol Table
 
+Some of the value of this content is in being able 
+* to correlate small code sequences in C-like language (e.g. if statements, loop statements; && and || operators) and how they relate to assembly language
+* to explore parsing statements and expression using simple and efficient hand written parser
+* to explore how to generate code for various language constructs
+
 No license is provided for this content, which is under copyright.
 To see what that means, see the "For Users" section of https://choosealicense.com/no-permission/
