@@ -1,23 +1,12 @@
------- Test: 1000 ------		if ( a && b ) { c = 1; } { d = 2; }
+------ Test: 1000 ------		(a && b) + 3
 
-if ( a && b ) { c = 1; } { d = 2; }
-                         ^
-results-test-1000.txt: Parse End on line 1 (character offset 25)
-	PUSH	a
-	BEQ	L0
-	PUSH	b
-	BEQ	L0
-	PUSH	#1
-	POP	c
-L0:
+(a && b) + 3
+            ^
+results-test-1000.txt: Expected character: ';' instead of: '￿' on line 1 (character offset 12)
+(a && b) + 3
+            ^
+results-test-1000.txt: Parse End on line 1 (character offset 12)
 
-    +---If-Then Statement
-        +---Condition	binop: 'ShortCircutAnd'
-        |   +---Var: 'a'
-        |   +---Var: 'b'
-        +---ThenPart	Block Statement
-            +---Expression Statement
-                +---binop: 'Assignment'
-                    +---Var: 'c'
-                    +---num: '1'
+Expected character: ';' instead of: '￿'
+
 

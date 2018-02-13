@@ -55,6 +55,11 @@ namespace com.erikeidt.Draconum
 			_output.WriteLine ( "\t{0}\t{1}", opcode, arg );
 		}
 
+		public void GenerateInstruction ( string opcode, string arg1, string arg2 )
+		{
+			_output.WriteLine ( "\t{0}\t{1},{2}", opcode, arg1, arg2 );
+		}
+
 		public void GenerateUnconditionalBranch ( BranchTargetLabel label )
 		{
 			_output.WriteLine ( "\t{0}\tL{1}", "JUMP", label.Id );
@@ -99,6 +104,22 @@ namespace com.erikeidt.Draconum
 			for ( var i = 0 ; i < _labelList.Count ; i++ )
 				if ( !_labelList [ i ] )
 					throw new AssertionFailedException ( "label not defined: L" + i );
+		}
+
+		public int EvaluateArgumentList ( AbstractSyntaxTree arg )
+		{
+			if ( arg == null )
+				return 0;
+
+			if ( arg is ArgumentSeparatorTreeNode comma )
+			{
+				var count = EvaluateArgumentList ( comma.Left );
+				comma.Right.GenerateCodeForValue ( this, EvaluationIntention.Value );
+				return count + 1;
+			}
+			
+			arg.GenerateCodeForValue ( this, EvaluationIntention.Value );
+			return 1;
 		}
 	}
 }

@@ -1,0 +1,25 @@
+------ Test: 1201 ------		e = a || b;
+
+e = a || b;
+           ^
+results-test-1201.txt: Parse End on line 1 (character offset 11)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'e'
+            +---binop: 'ShortCircutOr'
+                +---Var: 'a'
+                +---Var: 'b'
+
+	PUSH	a
+	B.TRUE	L1
+	PUSH	b
+	B.FALSE	L0
+L1:
+	PUSH	#1
+	JUMP	L2
+L0:
+	PUSH	#0
+L2:
+	POP	e
+

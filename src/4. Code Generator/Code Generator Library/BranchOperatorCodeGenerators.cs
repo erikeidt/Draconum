@@ -60,6 +60,7 @@ namespace com.erikeidt.Draconum
 					context.GenerateInstruction ( "PUSH", "#1" );
 					var joinPoint2 = context.CreateLabel ();
 					context.GenerateUnconditionalBranch ( joinPoint2 );
+					context.PlaceLabelHere ( zero );
 					context.GenerateInstruction ( "PUSH", "#0" );
 					context.PlaceLabelHere ( joinPoint2 );
 					return null;
@@ -99,6 +100,7 @@ namespace com.erikeidt.Draconum
 					context.GenerateInstruction ( "PUSH", "#1" );
 					var joinPoint2 = context.CreateLabel ();
 					context.GenerateUnconditionalBranch ( joinPoint2 );
+					context.PlaceLabelHere ( zero );
 					context.GenerateInstruction ( "PUSH", "#0" );
 					context.PlaceLabelHere ( joinPoint2 );
 					return null;

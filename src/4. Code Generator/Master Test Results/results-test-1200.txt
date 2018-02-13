@@ -1,0 +1,24 @@
+------ Test: 1200 ------		e = a && b;
+
+e = a && b;
+           ^
+results-test-1200.txt: Parse End on line 1 (character offset 11)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'e'
+            +---binop: 'ShortCircutAnd'
+                +---Var: 'a'
+                +---Var: 'b'
+
+	PUSH	a
+	B.FALSE	L0
+	PUSH	b
+	B.FALSE	L0
+	PUSH	#1
+	JUMP	L1
+L0:
+	PUSH	#0
+L1:
+	POP	e
+

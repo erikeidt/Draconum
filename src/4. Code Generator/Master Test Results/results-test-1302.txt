@@ -1,0 +1,20 @@
+------ Test: 1302 ------		a((1,2),3);
+
+a((1,2),3);
+           ^
+results-test-1302.txt: Parse End on line 1 (character offset 11)
+
+    +---Expression Statement
+        +---binop: 'FunctionCall'
+            +---Var: 'a'
+            +---binop: 'ArgumentSeparator'
+                +---binop: 'ExpressionSeparator'
+                |   +---num: '1'
+                |   +---num: '2'
+                +---num: '3'
+
+	PUSH	#2
+	PUSH	#3
+	CALL	a,#2
+	POP
+

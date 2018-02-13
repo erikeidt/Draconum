@@ -222,9 +222,9 @@ namespace com.erikeidt.Draconum
 
 					case '!':
 						_scanner.Advance ();
-						if ( !_scanner.IfCharacter ( '!' ) )
+						if ( !_scanner.IfCharacter ( '=' ) )
 							_scanner.ErrorAtMark ( "expected = for !=" );
-						ReduceThenPushOperator ( Operator.LogicalNot );
+						ReduceThenPushOperator ( Operator.NotEqual );
 						break;
 
 					case '*':

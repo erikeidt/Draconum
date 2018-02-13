@@ -17,8 +17,4 @@
 		</Compile>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Master Test Results\" />
-	</ItemGroup>
-
 </Project>

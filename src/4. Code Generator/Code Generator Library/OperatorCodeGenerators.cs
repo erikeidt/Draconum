@@ -21,6 +21,8 @@ namespace com.erikeidt.Draconum
 			case EvaluationIntention.Value:
 				context.GenerateInstruction ( "PUSH", Value.ToString () );
 				break;
+			case EvaluationIntention.ValueOrNode:
+				return this;
 			case EvaluationIntention.SideEffectsOnly:
 				break;
 			case EvaluationIntention.AddressOrNode:
@@ -134,20 +136,19 @@ namespace com.erikeidt.Draconum
 	{
 		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
 		{
-			switch ( purpose )
-			{
-				case EvaluationIntention.SideEffectsOnly:
-					Left.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
-					Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
-					return null;
-				case EvaluationIntention.Value:
-				case EvaluationIntention.ValueOrNode:
-					Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
-					Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
-					context.GenerateInstruction ( Op.ToString () );
-					return null;
-				default:
-					throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			switch ( purpose ) {
+			case EvaluationIntention.SideEffectsOnly:
+				Left.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				return null;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
+				Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
+				context.GenerateInstruction ( Op.ToString () );
+				return null;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
 			}
 		}
 	}
@@ -157,35 +158,111 @@ namespace com.erikeidt.Draconum
 		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
 		{
 			bool so = false;
-			switch ( purpose )
-			{
-				case EvaluationIntention.SideEffectsOnly:
-					so = true;
-					break;
-				case EvaluationIntention.Value:
-				case EvaluationIntention.ValueOrNode:
-					break;
-				default:
-					throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			switch ( purpose ) {
+			case EvaluationIntention.SideEffectsOnly:
+				so = true;
+				break;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				break;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
 			}
 
 			var what = Arg.GenerateCodeForValue ( context, EvaluationIntention.AddressOrNode );
-			if ( what == null )
-			{
-				if ( !so) 
+			if ( what == null ) {
+				if ( !so )
 					context.GenerateInstruction ( "DUP" );
 				context.GenerateInstruction ( "IINC" );
 				if ( !so )
 					context.GenerateInstruction ( "DEREF" );
-			}
-			else if ( what is VariableTreeNode variable )
-			{
+			} else if ( what is VariableTreeNode variable ) {
 				context.GenerateInstruction ( "PUSH", variable.Value.ToString () );
 				if ( !so )
 					context.GenerateInstruction ( "DUP" );
 				context.GenerateInstruction ( "INC" );
 				context.GenerateInstruction ( "POP", variable.Value.ToString () );
 			}
+			return null;
+		}
+	}
+
+	partial class ExpressionSeparatorTreeNode
+	{
+		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
+		{
+			switch ( purpose ) {
+			case EvaluationIntention.SideEffectsOnly:
+				Left.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				break;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				Left.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				return Right.GenerateCodeForValue ( context, purpose );
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			}
+
+			return null;
+		}
+	}
+
+	partial class FunctionCallTreeNode
+	{
+		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
+		{
+			var functionToCall = Left.GenerateCodeForValue ( context, EvaluationIntention.ValueOrNode );
+
+			// NB: Function calls are binary operators in the sense that they have two arguments.
+			// The first argument is the function to call, and the second is:
+			//	possibly null -- if no arguments are supplied, or,
+			//	a single parameter -- if one argument is supplied, or,
+			//	a tree of ArgumentSeparator, whose left is 
+			//		a single parameter, or,
+			//		a tree of ArugmentSeparator ...
+			//		and whose Right is a single parameter.
+
+			var argCount = context.EvaluateArgumentList ( Right );
+			if ( functionToCall == null )
+				context.GenerateInstruction ( "ICALL", string.Format ( "#{0}", argCount ) );
+			else if ( functionToCall is VariableTreeNode variable ) {
+				context.GenerateInstruction ( "CALL", variable.Value.ToString (), string.Format ( "#{0}", argCount ) );
+			} else {
+				throw new AssertionFailedException ( "unknown function" );
+			}
+
+			if ( purpose == EvaluationIntention.SideEffectsOnly )
+				context.GenerateInstruction ( "POP" );
+
+			return null;
+		}
+	}
+
+	partial class TernaryChoiceTreeNode
+	{
+		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
+		{
+			bool so = false;
+			switch ( purpose ) {
+			case EvaluationIntention.SideEffectsOnly:
+				so = true;
+				break;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				break;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			}
+			var secondChoice = context.CreateLabel ();
+			Pre.GenerateCodeForConditionalBranch ( context, secondChoice, false );
+
+			Mid.GenerateCodeForValue ( context, so ? EvaluationIntention.SideEffectsOnly : EvaluationIntention.Value );
+			var joinPoint = context.CreateLabel ();
+			context.GenerateUnconditionalBranch ( joinPoint );
+			context.PlaceLabelHere ( secondChoice );
+			Post.GenerateCodeForValue ( context, so ? EvaluationIntention.SideEffectsOnly : EvaluationIntention.Value );
+			context.PlaceLabelHere ( joinPoint );
 			return null;
 		}
 	}

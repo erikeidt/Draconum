@@ -1,0 +1,23 @@
+------ Test: 1450 ------		(a() && b()) + 3;
+
+(a() && b()) + 3;
+                 ^
+results-test-1450.txt: Parse End on line 1 (character offset 17)
+
+    +---Expression Statement
+        +---binop: 'Addition'
+            +---binop: 'ShortCircutAnd'
+            |   +---binop: 'FunctionCall'
+            |   |   +---Var: 'a'
+            |   |   +---<empty>
+            |   +---binop: 'FunctionCall'
+            |       +---Var: 'b'
+            |       +---<empty>
+            +---num: '3'
+
+	CALL	a,#0
+	B.FALSE	L0
+	CALL	b,#0
+	POP
+L0:
+

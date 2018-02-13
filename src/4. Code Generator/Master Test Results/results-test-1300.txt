@@ -1,0 +1,14 @@
+------ Test: 1300 ------		a ();
+
+a ();
+     ^
+results-test-1300.txt: Parse End on line 1 (character offset 5)
+
+    +---Expression Statement
+        +---binop: 'FunctionCall'
+            +---Var: 'a'
+            +---<empty>
+
+	CALL	a,#0
+	POP
+

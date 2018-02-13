@@ -32,8 +32,35 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 
 			_masterDir = @"Master Test Results\";
 
+			Test ( 1000, "(a && b) + 3" );
+
 			Test ( 1001, "if ( a && b ) { c = 1; } else { d = 2; }" );
 			Test ( 1002, "if ( a || b ) { c = 1; } else { d = 2; }" );
+
+			Test ( 1100, "a && b;" );
+			Test ( 1101, "a || b;" );
+
+			Test ( 1150, "(a && b) + 3;" );
+			Test ( 1151, "(a || b) + 3;" );
+
+			Test ( 1200, "e = a && b;" );
+			Test ( 1201, "e = a || b;" );
+			Test ( 1250, "e = (a && b) + 3;" );
+			Test ( 1251, "e = (a || b) + 3;" );
+
+			Test ( 1300, "a ();" );
+			Test ( 1301, "a(1,2,3);" );
+			Test ( 1302, "a((1,2),3);" );
+
+			Test ( 1400, "a() && b();" );
+			Test ( 1401, "a() || b();" );
+			Test ( 1450, "(a() && b()) + 3;" );
+			Test ( 1451, "(a() || b()) + 3;" );
+
+			Test ( 1800, "a ? b : c;" );
+			Test ( 1801, "e = a ? b : c;" );
+			Test ( 1802, "a(0) ? b(1) : c(2);" );
+			Test ( 1803, "e = a(0) ? b(1) : c(2);" );
 
 			Test ( 2001, "for(;;) { if ( a && b ) { c=1; break; } }" );
 			Test ( 2002, "for(;;) { if ( a && b ) break; }" );
@@ -43,6 +70,7 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 2005, "for(;;) { a = 1; break; }" );
 
 			Test ( 3000, "for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }" );
+			Test ( 3001, "for ( i = 0; i < 100; i++ ) { if ( a[i] != 32 && a[i] != 64 ) break; }" );
 
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
@@ -80,16 +108,11 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 				tw.WriteLine ();
 				result.Dump ( tw );
 				tw.WriteLine ();
-				if ( ! result.HasErrors )
-				{
-					using ( var context = new CodeGenContext ( tw ) )
-					{
-						try
-						{
+				if ( !result.HasErrors ) {
+					using ( var context = new CodeGenContext ( tw ) ) {
+						try {
 							result.Result.GenerateCode ( context );
-						}
-						catch ( Exception ex )
-						{
+						} catch ( Exception ex ) {
 							System.Console.WriteLine ( ex );
 						}
 					}

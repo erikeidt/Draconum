@@ -1,0 +1,31 @@
+------ Test: 1802 ------		a(0) ? b(1) : c(2);
+
+a(0) ? b(1) : c(2);
+                   ^
+results-test-1802.txt: Parse End on line 1 (character offset 19)
+
+    +---Expression Statement
+        +---ternop: 'TernaryChoice'
+            +---binop: 'FunctionCall'
+            |   +---Var: 'a'
+            |   +---num: '0'
+            +---binop: 'FunctionCall'
+            |   +---Var: 'b'
+            |   +---num: '1'
+            +---binop: 'FunctionCall'
+                +---Var: 'c'
+                +---num: '2'
+
+	PUSH	#0
+	CALL	a,#1
+	B.FALSE	L0
+	PUSH	#1
+	CALL	b,#1
+	POP
+	JUMP	L1
+L0:
+	PUSH	#2
+	CALL	c,#1
+	POP
+L1:
+
