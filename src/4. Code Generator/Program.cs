@@ -32,7 +32,7 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 
 			_masterDir = @"Master Test Results\";
 
-			Test ( 1000, "(a && b) + 3" );
+			Test ( 1000, "(a && b) + 3" );	// fyi, this should throw CompileException
 
 			Test ( 1001, "if ( a && b ) { c = 1; } else { d = 2; }" );
 			Test ( 1002, "if ( a || b ) { c = 1; } else { d = 2; }" );
@@ -68,9 +68,14 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 2004, "for(;;) { if ( a && b ) { c=1; break; } }" );
 
 			Test ( 2005, "for(;;) { a = 1; break; }" );
+			Test ( 2400, "a=b=c;" );
 
 			Test ( 3000, "for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }" );
 			Test ( 3001, "for ( i = 0; i < 100; i++ ) { if ( a[i] != 32 && a[i] != 64 ) break; }" );
+
+			Test ( 3200, "a[i](1);" );
+			Test ( 3201, "a[i] = b[i];" );
+			Test ( 3202, "a[i] = b[i] = c[i];" );
 
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
