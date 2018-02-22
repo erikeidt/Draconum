@@ -1,0 +1,15 @@
+------ Test: 3402 ------		p = &a;
+
+p = &a;
+       ^
+results-test-3402.txt: Parse End on line 1 (character offset 7)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'p'
+            +---unop: 'AddressOf'
+                +---Var: 'a'
+
+	PEA	a
+	POP	p
+

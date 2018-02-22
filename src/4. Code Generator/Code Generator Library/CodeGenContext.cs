@@ -111,13 +111,12 @@ namespace com.erikeidt.Draconum
 			if ( arg == null )
 				return 0;
 
-			if ( arg is ArgumentSeparatorTreeNode comma )
-			{
+			if ( arg is ArgumentSeparatorTreeNode comma ) {
 				var count = EvaluateArgumentList ( comma.Left );
 				comma.Right.GenerateCodeForValue ( this, EvaluationIntention.Value );
 				return count + 1;
 			}
-			
+
 			arg.GenerateCodeForValue ( this, EvaluationIntention.Value );
 			return 1;
 		}

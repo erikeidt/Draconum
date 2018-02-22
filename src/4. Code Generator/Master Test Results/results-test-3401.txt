@@ -1,0 +1,16 @@
+------ Test: 3401 ------		*&a = 1;
+
+*&a = 1;
+        ^
+results-test-3401.txt: Parse End on line 1 (character offset 8)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---unop: 'Indirection'
+            |   +---unop: 'AddressOf'
+            |       +---Var: 'a'
+            +---num: '1'
+
+	PUSH	#1
+	POP	a
+

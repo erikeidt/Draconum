@@ -47,8 +47,8 @@ namespace com.erikeidt.Draconum
 	{
 		public override void GenerateCode ( CodeGenContext context )
 		{
-			for ( int i = 0; i < Statements.Count; i++ )
-				Statements[i].GenerateCode ( context );
+			for ( int i = 0 ; i < Statements.Count ; i++ )
+				Statements [ i ].GenerateCode ( context );
 		}
 
 		public override BranchTargetLabel GetBranchTarget ()
@@ -78,21 +78,17 @@ namespace com.erikeidt.Draconum
 		public override void GenerateCode ( CodeGenContext context )
 		{
 			var target = ThenPart.GetBranchTarget ();
-			if ( target != null )
-			{
+			if ( target != null ) {
 				Condition.GenerateCodeForConditionalBranch ( context, target, true );
 				ElsePart?.GenerateCode ( context );
-			}
-			else if ( ElsePart == null )
-			{
+			} else if ( ElsePart == null ) {
 				var joinPoint = context.CreateLabel ();
 				Condition.GenerateCodeForConditionalBranch ( context, joinPoint, false );
 				ThenPart.GenerateCode ( context );
 				context.PlaceLabelHere ( joinPoint );
 			}
-			/* else if ( ElsePart.IsBranchStatement () { }*/
-			else
-			{
+			  /* else if ( ElsePart.IsBranchStatement () { }*/
+			  else {
 				var elsePartLabel = context.CreateLabel ();
 				Condition.GenerateCodeForConditionalBranch ( context, elsePartLabel, false );
 				ThenPart.GenerateCode ( context );
@@ -127,7 +123,7 @@ namespace com.erikeidt.Draconum
 			context.PlaceLabelHere ( loopTop );
 
 			ContinueLabel = context.CreateLabel ();
-			BreakLabel = context.CreateLabel ();			
+			BreakLabel = context.CreateLabel ();
 
 			Condition?.GenerateCodeForConditionalBranch ( context, BreakLabel, false );
 			Body.GenerateCode ( context );

@@ -19,16 +19,16 @@ namespace com.erikeidt.Draconum
 		{
 			Arg.GenerateCodeForValue ( context, purpose );
 			switch ( purpose ) {
-				case EvaluationIntention.SideEffectsOnly:
-					Arg.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
-					return null;
-				case EvaluationIntention.Value:
-				case EvaluationIntention.ValueOrNode:
-					Arg.GenerateCodeForValue ( context, EvaluationIntention.Value );
-					context.GenerateInstruction ( "NEG" );
-					return null;
-				default:
-					throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			case EvaluationIntention.SideEffectsOnly:
+				Arg.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				return null;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				Arg.GenerateCodeForValue ( context, EvaluationIntention.Value );
+				context.GenerateInstruction ( "NEG" );
+				return null;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
 			}
 		}
 
@@ -45,27 +45,27 @@ namespace com.erikeidt.Draconum
 		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
 		{
 			switch ( purpose ) {
-				case EvaluationIntention.SideEffectsOnly:
-					// we have something like:  a && b;
-					var joinPoint1 = context.CreateLabel ();
-					Left.GenerateCodeForConditionalBranch ( context, joinPoint1, false );
-					Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
-					context.PlaceLabelHere ( joinPoint1 );
-					return null;
-				case EvaluationIntention.Value:
-				case EvaluationIntention.ValueOrNode:
-					// we have an expression like (a && b) + 3 so we treat that like: ((a && b) ? 1 : 0) + 3;
-					var zero = context.CreateLabel ();
-					context.EvalBoth ( Left, Right, zero, false );
-					context.GenerateInstruction ( "PUSH", "#1" );
-					var joinPoint2 = context.CreateLabel ();
-					context.GenerateUnconditionalBranch ( joinPoint2 );
-					context.PlaceLabelHere ( zero );
-					context.GenerateInstruction ( "PUSH", "#0" );
-					context.PlaceLabelHere ( joinPoint2 );
-					return null;
-				default:
-					throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			case EvaluationIntention.SideEffectsOnly:
+				// we have something like:  a && b;
+				var joinPoint1 = context.CreateLabel ();
+				Left.GenerateCodeForConditionalBranch ( context, joinPoint1, false );
+				Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				context.PlaceLabelHere ( joinPoint1 );
+				return null;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				// we have an expression like (a && b) + 3 so we treat that like: ((a && b) ? 1 : 0) + 3;
+				var zero = context.CreateLabel ();
+				context.EvalBoth ( Left, Right, zero, false );
+				context.GenerateInstruction ( "PUSH", "#1" );
+				var joinPoint2 = context.CreateLabel ();
+				context.GenerateUnconditionalBranch ( joinPoint2 );
+				context.PlaceLabelHere ( zero );
+				context.GenerateInstruction ( "PUSH", "#0" );
+				context.PlaceLabelHere ( joinPoint2 );
+				return null;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
 			}
 		}
 
@@ -85,27 +85,27 @@ namespace com.erikeidt.Draconum
 		public override AbstractSyntaxTree GenerateCodeForValue ( CodeGenContext context, EvaluationIntention purpose )
 		{
 			switch ( purpose ) {
-				case EvaluationIntention.SideEffectsOnly:
-					// we have something like:  a || b;
-					var joinPoint1 = context.CreateLabel ();
-					Left.GenerateCodeForConditionalBranch ( context, joinPoint1, true );
-					Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
-					context.PlaceLabelHere ( joinPoint1 );
-					return null;
-				case EvaluationIntention.Value:
-				case EvaluationIntention.ValueOrNode:
-					// we have an expression like (a || b) + 3 so we treat that like: ((a || b) ? 1 : 0) + 3;
-					var zero = context.CreateLabel ();
-					context.EvalEither ( Left, Right, zero, false );
-					context.GenerateInstruction ( "PUSH", "#1" );
-					var joinPoint2 = context.CreateLabel ();
-					context.GenerateUnconditionalBranch ( joinPoint2 );
-					context.PlaceLabelHere ( zero );
-					context.GenerateInstruction ( "PUSH", "#0" );
-					context.PlaceLabelHere ( joinPoint2 );
-					return null;
-				default:
-					throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
+			case EvaluationIntention.SideEffectsOnly:
+				// we have something like:  a || b;
+				var joinPoint1 = context.CreateLabel ();
+				Left.GenerateCodeForConditionalBranch ( context, joinPoint1, true );
+				Right.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
+				context.PlaceLabelHere ( joinPoint1 );
+				return null;
+			case EvaluationIntention.Value:
+			case EvaluationIntention.ValueOrNode:
+				// we have an expression like (a || b) + 3 so we treat that like: ((a || b) ? 1 : 0) + 3;
+				var zero = context.CreateLabel ();
+				context.EvalEither ( Left, Right, zero, false );
+				context.GenerateInstruction ( "PUSH", "#1" );
+				var joinPoint2 = context.CreateLabel ();
+				context.GenerateUnconditionalBranch ( joinPoint2 );
+				context.PlaceLabelHere ( zero );
+				context.GenerateInstruction ( "PUSH", "#0" );
+				context.PlaceLabelHere ( joinPoint2 );
+				return null;
+			default:
+				throw new AssertionFailedException ( "unexpected evaluation intention" + purpose );
 			}
 		}
 
