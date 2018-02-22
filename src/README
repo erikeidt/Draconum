@@ -1,4 +1,4 @@
-Draconum is a series of 4 projects.
+Draconum is a series of 4 Visual Studio projects in C#.
 
 The first project, 1. Expression Generator, generates some classes for operators, 
 and some tables for operator precedence and associativity.
