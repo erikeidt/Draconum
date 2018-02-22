@@ -1,0 +1,18 @@
+Draconum is a series of 4 projects.
+
+The first project, 1. Expression Generator, generates some classes for operators, 
+and some tables for operator precedence and associativity.
+These tables are generated (as *.gen.cs) into the 2. Expression Parser project.
+
+The second project, 2. Expression Parser, provides an expression parser that outputs an Abstract Syntax Tree as the parse result (AST).
+This AST is ~pretty printed, so you can visualize the parse results.
+It contains my simple scanner, so can handle variables, strings, numbers, comments, etc.  
+The expression parser itself, while industrial strength, is contained in a single file.  
+The project is otherwise stand alone.
+
+The third project, 3. Statement Parser, adds statements like if/else, while, for, and expression statements.  In incorporates the
+expression parser.  It adds to the expression parser as needed. 
+
+The fourth project, 4. Code Generator, adds code generation for a non-existant stack machine.  It incorporates the statement parser and the expression parser.
+
+These various projects build upon each other, and each makes heavy use of C#'s partial classes so that the expression parser project is not cluttered with details of the code generator, and yet the code generator can still nicely use object orientation to add methods and fields it needs.
