@@ -26,10 +26,10 @@ namespace com.erikeidt.Draconum.StatementParserTest
 
 		public void RunTests ()
 		{
-			_testDir = @"bin\Debug\TestResults\";
+			_testDir = @"TestResults\";
 			Directory.CreateDirectory ( _testDir );
 
-			_masterDir = @"Master Test Results\";
+			_masterDir = @"..\..\Master Test Results\";
 
 			Test ( 1000, ";" );
 

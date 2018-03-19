@@ -24,10 +24,10 @@ namespace com.erikeidt.Draconum.ExpressionParserTest
 
 		public void RunTests ()
 		{
-			_testDir = @"bin\Debug\TestResults\";
+			_testDir = @"TestResults\";
 			Directory.CreateDirectory ( _testDir );
 
-			_masterDir = @"Master Test Results\";
+			_masterDir = @"..\..\Master Test Results\";
 
 			Test ( 1001, "a+b*c-d" );
 			Test ( 1002, "a?b:c" );

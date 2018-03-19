@@ -22,7 +22,7 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 
 	class Program
 	{
-		const string OutputFilePath = @"..\2. Expression Parser\Expression Parser Library\";
+		const string OutputFilePath = @"..\..\..\2. Expression Parser\Expression Parser Library\";
 
 		static readonly List<string> CopyrightText = new List<string> {
 			null,

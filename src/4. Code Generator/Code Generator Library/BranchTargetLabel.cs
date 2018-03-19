@@ -13,6 +13,9 @@
 
 namespace com.erikeidt.Draconum
 {
+	/// <summary>
+	///		A simple class 
+	/// </summary>
 	class BranchTargetLabel
 	{
 		public readonly int Id;

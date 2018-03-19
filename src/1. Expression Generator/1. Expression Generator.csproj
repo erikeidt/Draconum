@@ -1,10 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
-    <RootNamespace>com.erikeidt.Draconum</RootNamespace>
-    <StartupObject>com.erikeidt.Draconum.ExpressionGenerator.Program</StartupObject>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netcoreapp2.0</TargetFramework>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+		<OutputPath></OutputPath>
+		<OutputType>Exe</OutputType>
+		<RootNamespace>com.erikeidt.Draconum</RootNamespace>
+		<StartupObject>com.erikeidt.Draconum.ExpressionGenerator.Program</StartupObject>
+		<AssemblyName>Draconum Expression Generator</AssemblyName>
+	</PropertyGroup>
 
 </Project>

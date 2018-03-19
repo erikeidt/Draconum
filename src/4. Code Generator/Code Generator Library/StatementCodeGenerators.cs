@@ -26,7 +26,6 @@ namespace com.erikeidt.Draconum
 		}
 	}
 
-
 	partial class DeclarationStatement
 	{
 		public override void GenerateCode ( CodeGenContext context )
@@ -79,6 +78,20 @@ namespace com.erikeidt.Draconum
 		{
 			var target = ThenPart.GetBranchTarget ();
 			if ( target != null ) {
+				//
+				// Normally, we evaluate 
+				//		if ( a ) { b = 1; }
+				//	such that if "a" evaluates to false, then we branch around the then-part
+				//		and if "a" evaluates to true, we fall-thru to the then-part
+				// But when the then-part is itself a goto statement of some sort:
+				//		if ( a ) { goto L; }
+				//		if ( a ) { break; }
+				//		if ( a ) { continue; }
+				// Then instead of branching around a branch instruction,
+				//	we reverse the evaluation condition and supply the control flow target:
+				//	so that if "a" evaluates to true, then we branch (goto/break/continue),
+				//		and if "a" evaluates to false, we don't branch
+				//
 				Condition.GenerateCodeForConditionalBranch ( context, target, true );
 				ElsePart?.GenerateCode ( context );
 			} else if ( ElsePart == null ) {

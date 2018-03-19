@@ -27,10 +27,10 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 
 		public void RunTests ()
 		{
-			_testDir = @"bin\Debug\TestResults\";
+			_testDir = @"TestResults\";
 			Directory.CreateDirectory ( _testDir );
 
-			_masterDir = @"Master Test Results\";
+			_masterDir = @"..\..\Master Test Results\";
 
 			Test ( 1000, "(a && b) + 3" );  // fyi, this should throw CompileException
 
