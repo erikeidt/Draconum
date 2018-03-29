@@ -85,6 +85,19 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 3405, "p = &a[i];" );
 			Test ( 3406, "*&a[i] = i;" );
 
+			Test ( 3700, "if ( a == 1 ) { c = 1; } else { d = 2; }" );
+			Test ( 3701, "if ( a != 1 ) { c = 1; } else { d = 2; }" );
+			Test ( 3702, "if ( a <= 1 ) { c = 1; } else { d = 2; }" );
+			Test ( 3703, "if ( a < 1 ) { c = 1; } else { d = 2; }" );
+			Test ( 3704, "if ( a > 1 ) { c = 1; } else { d = 2; }" );
+			Test ( 3705, "if ( a >= 1 ) { c = 1; } else { d = 2; }" );
+
+			Test ( 3800, "if ( a == 4 ) { c = 1; } else { d = 2; }" );
+			Test ( 3801, "if ( a >= 1 && a <= 7 ) { c = 1; } else { d = 2; }" );
+			Test ( 3802, "if ( a > 1 && a < 7 ) { c = 1; } else { d = 2; }" );
+			Test ( 3803, "if ( a < 1 || a > 8 ) { c = 1; } else { d = 2; }" );
+			Test ( 3804, "if ( a <= 1 || a >= 8 ) { c = 1; } else { d = 2; }" );
+
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
 		}

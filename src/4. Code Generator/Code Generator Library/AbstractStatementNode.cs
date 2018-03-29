@@ -37,7 +37,7 @@ namespace com.erikeidt.Draconum
 		/// <returns>
 		///		The branch target, if this statement is such a kind, or, null if not a branching statement.
 		/// </returns>
-		public virtual BranchTargetLabel GetBranchTarget ()
+		public virtual BranchTargetLabel? GetBranchTarget ()
 		{
 			return null;
 		}

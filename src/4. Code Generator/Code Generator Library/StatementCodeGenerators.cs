@@ -50,7 +50,7 @@ namespace com.erikeidt.Draconum
 				Statements [ i ].GenerateCode ( context );
 		}
 
-		public override BranchTargetLabel GetBranchTarget ()
+		public override BranchTargetLabel? GetBranchTarget ()
 		{
 			// if the block statement is blank, then it does not provide target
 			//	(if there is a larger control structure like if around the empty block statement as then part, it might)
@@ -77,7 +77,7 @@ namespace com.erikeidt.Draconum
 		public override void GenerateCode ( CodeGenContext context )
 		{
 			var target = ThenPart.GetBranchTarget ();
-			if ( target != null ) {
+			if ( target.HasValue ) {
 				//
 				// Normally, we evaluate 
 				//		if ( a ) { b = 1; }
@@ -92,7 +92,7 @@ namespace com.erikeidt.Draconum
 				//	so that if "a" evaluates to true, then we branch (goto/break/continue),
 				//		and if "a" evaluates to false, we don't branch
 				//
-				Condition.GenerateCodeForConditionalBranch ( context, target, true );
+				Condition.GenerateCodeForConditionalBranch ( context, target.Value, true );
 				ElsePart?.GenerateCode ( context );
 			} else if ( ElsePart == null ) {
 				var joinPoint = context.CreateLabel ();
@@ -116,12 +116,12 @@ namespace com.erikeidt.Draconum
 
 	partial class BreakableStatement
 	{
-		public BranchTargetLabel BreakLabel;
+		public BranchTargetLabel? BreakLabel;
 	}
 
 	partial class ContinueableStatement
 	{
-		public BranchTargetLabel ContinueLabel;
+		public BranchTargetLabel? ContinueLabel;
 	}
 
 	partial class ForStatement
@@ -135,17 +135,20 @@ namespace com.erikeidt.Draconum
 			var loopTop = context.CreateLabel ();
 			context.PlaceLabelHere ( loopTop );
 
-			ContinueLabel = context.CreateLabel ();
-			BreakLabel = context.CreateLabel ();
+			var cl = context.CreateLabel ();
+			var bl = context.CreateLabel ();
 
-			Condition?.GenerateCodeForConditionalBranch ( context, BreakLabel, false );
+			ContinueLabel = cl;
+			BreakLabel = bl;
+
+			Condition?.GenerateCodeForConditionalBranch ( context, bl, false );
 			Body.GenerateCode ( context );
-			context.PlaceLabelHere ( ContinueLabel );
+			context.PlaceLabelHere ( cl );
 			Increment?.GenerateCodeForValue ( context, EvaluationIntention.SideEffectsOnly );
 			if ( Body.EndsLive () )
 				context.GenerateUnconditionalBranch ( loopTop );
 
-			context.PlaceLabelHere ( BreakLabel );
+			context.PlaceLabelHere ( bl );
 		}
 	}
 
@@ -180,13 +183,15 @@ namespace com.erikeidt.Draconum
 	{
 		public override void GenerateCode ( CodeGenContext context )
 		{
-			context.GenerateUnconditionalBranch ( EnclosingStatement.BreakLabel );
+			if ( ! EnclosingStatement.BreakLabel.HasValue )
+				throw new ParseException ( "break has no enclosing construct" ) ;
+			context.GenerateUnconditionalBranch ( EnclosingStatement.BreakLabel.Value );
 		}
 
-		public override BranchTargetLabel GetBranchTarget ()
+		public override BranchTargetLabel? GetBranchTarget ()
 		{
 			var target = EnclosingStatement.BreakLabel;
-			if ( target == null )
+			if ( ! target.HasValue )
 				throw new AssertionFailedException ( "BreakLabel not set" );
 			return target;
 		}
@@ -201,13 +206,15 @@ namespace com.erikeidt.Draconum
 	{
 		public override void GenerateCode ( CodeGenContext context )
 		{
-			context.GenerateUnconditionalBranch ( EnclosingStatement.ContinueLabel );
+			if ( ! EnclosingStatement.ContinueLabel.HasValue )
+				throw new ParseException ( "break has no enclosing construct" ) ;
+			context.GenerateUnconditionalBranch ( EnclosingStatement.ContinueLabel.Value );
 		}
 
-		public override BranchTargetLabel GetBranchTarget ()
+		public override BranchTargetLabel? GetBranchTarget ()
 		{
 			var target = EnclosingStatement.ContinueLabel;
-			if ( target == null )
+			if ( ! target.HasValue )
 				throw new AssertionFailedException ( "ContinueLabel not set" );
 			return target;
 		}
@@ -220,13 +227,13 @@ namespace com.erikeidt.Draconum
 
 	partial class UserLabel
 	{
-		private BranchTargetLabel _label;
+		private BranchTargetLabel? _label;
 
 		BranchTargetLabel GetBranchTargetLabel ( CodeGenContext context )
 		{
-			if ( _label == null )
+			if ( ! _label.HasValue )
 				_label = context.CreateLabel ();
-			return _label;
+			return _label.Value;
 		}
 	}
 

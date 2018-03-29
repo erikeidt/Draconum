@@ -1,0 +1,38 @@
+
+(0)
+
+	Draconum is a set of C# projects.
+	Most of them have a main, which tests the implementation.
+	Each project builds on the others: 
+		the initial concerns expression parsing, 
+		latter statement parsing, 
+		finally code generation.
+
+(1) Expression Generator Tool
+
+This is a simple tool to validate tokens in unary and binary modes.
+
+This tool generates some C# files (.gen.cs) into the expression parser project directory
+
+(2)
+
+Expression Parser
+
+Parses complex expressions using my own high-performance parsing method.
+
+(3)
+
+Statement Parser
+
+Adds parsing of statements, and uses the expression parser.
+
+(4)
+
+Code Generator
+
+Does evaluations for value, assignment, conditional branch, and side-effects.
+Includes the short-ciruit operators &&, ||.
+
+Uses a simple stack machine for the instruction set.
+
+

@@ -14,9 +14,9 @@
 namespace com.erikeidt.Draconum
 {
 	/// <summary>
-	///		A simple class 
+	///		A simple class that holds the identity of a label, as in an assembly language label or branch target.
 	/// </summary>
-	class BranchTargetLabel
+	struct BranchTargetLabel
 	{
 		public readonly int Id;
 

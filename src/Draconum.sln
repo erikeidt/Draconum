@@ -13,7 +13,16 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4. Code Generator", "4. Cod
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7B89E1AD-884A-4145-A9ED-D0F4760B58CA}"
 	ProjectSection(SolutionItems) = preProject
+		..\COPYRIGHT.md = ..\COPYRIGHT.md
+		README = README
+		..\README.md = ..\README.md
+		..\SAMPLE.md = ..\SAMPLE.md
 		ToDo.txt = ToDo.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{ABCB07DC-C903-4476-8E2A-E3A68916AD66}"
+	ProjectSection(SolutionItems) = preProject
+		Documentation\How does this work.txt = Documentation\How does this work.txt
 	EndProjectSection
 EndProject
 Global
@@ -41,6 +50,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ABCB07DC-C903-4476-8E2A-E3A68916AD66} = {7B89E1AD-884A-4145-A9ED-D0F4760B58CA}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {746D1461-43F1-45DF-8720-89AEC99CE84F}

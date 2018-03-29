@@ -50,7 +50,7 @@ namespace com.erikeidt.Draconum
 	///
 	/// 	It also allows for internally pushing back one identifier, which allows the consuming client parser ask 
 	///		if the next characters match some identifier, without necessarily consuming it if it doesn't.  
-	///		This capability is exposed via HaveIdentifier.  Other push back is not provided.
+	///		This capability is exposed via HaveIdentifier.  Other push back is not at present, though could be.
 	/// </summary>
 	class ScanIt : System.IDisposable // make callers use this in the using design pattern.
 	{

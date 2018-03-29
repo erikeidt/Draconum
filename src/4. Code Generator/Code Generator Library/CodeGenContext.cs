@@ -19,7 +19,7 @@ namespace com.erikeidt.Draconum
 {
 	class CodeGenContext : IDisposable
 	{
-		public enum OrderingRelation { LessThan, LessOrEqual, NotEqual, Equal, GreaterOrEqual, GreaterThan };
+		public enum OrderingRelation { LessThan, LessOrEqual, NotEqual, Equal, GreaterThan, GreaterOrEqual };
 
 		private readonly List<bool> _labelList = new List<bool> ();
 		private readonly System.IO.TextWriter _output;
@@ -72,7 +72,6 @@ namespace com.erikeidt.Draconum
 
 		public void GenerateConditionalCompareAndBranch ( OrderingRelation type, BranchTargetLabel label, bool reverse )
 		{
-
 			string [] fwd = { "B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT" };
 			_output.WriteLine ( "\t{0}\tL{1}", reverse ? fwd [ 5 - (int) type ] : fwd [ (int) type ], label.Id );
 		}
@@ -82,6 +81,24 @@ namespace com.erikeidt.Draconum
 			_output.WriteLine ( "#\t{0}", comment );
 		}
 
+		/// <summary>
+		///		Test two conditions, and conditionally branch vs. fall through: 
+		///			either branch to target or fall through to subsequent code;
+		///			conditions are or'ed together: either on constitutes "true".
+		/// </summary>
+		/// <param name="left">
+		///		Initial/left test condition.
+		/// </param>
+		/// <param name="right">
+		///		Initial/right test condition -- possibly short-circuted.
+		/// </param>
+		/// <param name="target">
+		///		Conditional branch target (or else fall thru).
+		/// </param>
+		/// <param name="reverse">
+		///		false	--> normal case, fall through on at least one true, otherwise on false: branch to target
+		///		true	--> reversed case, fall through both false, otherwise on true: branch to target
+		/// </param>
 		public void EvalEither ( AbstractSyntaxTree left, AbstractSyntaxTree right, BranchTargetLabel target, bool reverse )
 		{
 			var around = CreateLabel ();
@@ -90,6 +107,24 @@ namespace com.erikeidt.Draconum
 			PlaceLabelHere ( around );
 		}
 
+		/// <summary>
+		///		Test two conditions, and conditionally branch vs. fall through: 
+		///			either branch to target or fall through to subsequent code;
+		///			conditions are and'ed together: both together constitute "true".
+		/// </summary>
+		/// <param name="left">
+		///		Initial/left test condition.
+		/// </param>
+		/// <param name="right">
+		///		Initial/right test condition -- possibly short-circuted.
+		/// </param>
+		/// <param name="target">
+		///		Conditional branch target (or else fall thru).
+		/// </param>
+		/// <param name="reverse">
+		///		false	--> normal case, fall through on both true, otherwise on false: branch to target
+		///		true	--> reversed case, fall through at least one false, otherwise on true: branch to target
+		/// </param>
 		public void EvalBoth ( AbstractSyntaxTree left, AbstractSyntaxTree right, BranchTargetLabel target, bool reverse )
 		{
 			left.GenerateCodeForConditionalBranch ( this, target, reverse );
@@ -106,6 +141,24 @@ namespace com.erikeidt.Draconum
 					throw new AssertionFailedException ( "label not defined: L" + i );
 		}
 
+
+		/// <summary>
+		///		For evalutating function call arguments.
+		/// 
+		///		NB: function calls have 0 or more arguments, but they are all stored in a binary tree-type structure.
+		/// 
+		///		There is a special operator, ArgumentSeparatorTreeNode, for that.
+		///		These will only appear (at the top or) as the left operand of itself.
+		/// 
+		///		They are evaluated like the comma operator except they stack the operands for the invocation
+		///			whereas the regular comma operator ignores left-hand side results.
+		/// </summary>
+		/// <param name="arg">
+		///		AST to evalutate as parameter list
+		/// </param>
+		/// <returns>
+		///		Count of arguments passed to function, for processing of the stack frame.
+		/// </returns>
 		public int EvaluateArgumentList ( AbstractSyntaxTree arg )
 		{
 			if ( arg == null )
