@@ -21,6 +21,12 @@ namespace com.erikeidt.Draconum
 	{
 		public enum OrderingRelation { LessThan, LessOrEqual, NotEqual, Equal, GreaterThan, GreaterOrEqual };
 
+		// normal is reverse=false -- this means branching on the false condition, e.g. if condition branching around the then part
+		private string [] normalReverseFalse = { "B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT" };
+
+		// opposite is reverse=true; and this means branching on the said condition
+		private string [] oppositeReverseTrue = { "B.LT", "B.LE", "B.NE", "B.EQ", "B.GT", "B.GE" };
+
 		private readonly List<bool> _labelList = new List<bool> ();
 		private readonly System.IO.TextWriter _output;
 		private int _nextLabelId;
@@ -72,8 +78,7 @@ namespace com.erikeidt.Draconum
 
 		public void GenerateConditionalCompareAndBranch ( OrderingRelation type, BranchTargetLabel label, bool reverse )
 		{
-			string [] fwd = { "B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT" };
-			_output.WriteLine ( "\t{0}\tL{1}", reverse ? fwd [ 5 - (int) type ] : fwd [ (int) type ], label.Id );
+			_output.WriteLine ( "\t{0}\tL{1}", reverse ? oppositeReverseTrue [ (int) type ] : normalReverseFalse [ (int) type ], label.Id );
 		}
 
 		public void InsertComment ( string comment )
@@ -84,7 +89,8 @@ namespace com.erikeidt.Draconum
 		/// <summary>
 		///		Test two conditions, and conditionally branch vs. fall through: 
 		///			either branch to target or fall through to subsequent code;
-		///			conditions are or'ed together: either on constitutes "true".
+		///			conditions are or'ed together: either one constitutes "true".
+		///		Another way of thinking of this is condition disjunction (either).
 		/// </summary>
 		/// <param name="left">
 		///		Initial/left test condition.
@@ -111,6 +117,7 @@ namespace com.erikeidt.Draconum
 		///		Test two conditions, and conditionally branch vs. fall through: 
 		///			either branch to target or fall through to subsequent code;
 		///			conditions are and'ed together: both together constitute "true".
+		///		Another way of thinking of this is condition conjunction (both).
 		/// </summary>
 		/// <param name="left">
 		///		Initial/left test condition.
@@ -130,17 +137,6 @@ namespace com.erikeidt.Draconum
 			left.GenerateCodeForConditionalBranch ( this, target, reverse );
 			right.GenerateCodeForConditionalBranch ( this, target, reverse );
 		}
-
-		public void Dispose ()
-		{
-			if ( _isDisposed )
-				return;
-			_isDisposed = true;
-			for ( var i = 0 ; i < _labelList.Count ; i++ )
-				if ( !_labelList [ i ] )
-					throw new AssertionFailedException ( "label not defined: L" + i );
-		}
-
 
 		/// <summary>
 		///		For evalutating function call arguments.
@@ -172,6 +168,16 @@ namespace com.erikeidt.Draconum
 
 			arg.GenerateCodeForValue ( this, EvaluationIntention.Value );
 			return 1;
+		}
+
+		public void Dispose ()
+		{
+			if ( _isDisposed )
+				return;
+			_isDisposed = true;
+			for ( var i = 0 ; i < _labelList.Count ; i++ )
+				if ( !_labelList [ i ] )
+					throw new AssertionFailedException ( "label not defined: L" + i );
 		}
 	}
 }
