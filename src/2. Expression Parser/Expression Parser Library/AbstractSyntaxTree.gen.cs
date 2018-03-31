@@ -113,27 +113,27 @@ namespace com.erikeidt.Draconum {
 		public OrderTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class LessThanTreeNode : BinaryOperatorTreeNode {
+	partial class LessThanTreeNode : RelationalOperatorTreeNode {
 		public LessThanTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class LessOrEqualTreeNode : BinaryOperatorTreeNode {
+	partial class LessOrEqualTreeNode : RelationalOperatorTreeNode {
 		public LessOrEqualTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class GreaterThanTreeNode : BinaryOperatorTreeNode {
+	partial class GreaterThanTreeNode : RelationalOperatorTreeNode {
 		public GreaterThanTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class GreaterOrEqualTreeNode : BinaryOperatorTreeNode {
+	partial class GreaterOrEqualTreeNode : RelationalOperatorTreeNode {
 		public GreaterOrEqualTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class EqualEqualTreeNode : BinaryOperatorTreeNode {
+	partial class EqualEqualTreeNode : RelationalOperatorTreeNode {
 		public EqualEqualTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class NotEqualTreeNode : BinaryOperatorTreeNode {
+	partial class NotEqualTreeNode : RelationalOperatorTreeNode {
 		public NotEqualTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 

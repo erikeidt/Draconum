@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  *
  * Copyright (c) 2018, Erik L. Eidt
  * All rights Reserved.
@@ -17,16 +16,10 @@ using System.IO;
 
 namespace com.erikeidt.Draconum
 {
+	using static Operators;
+
 	class CodeGenContext : IDisposable
 	{
-		public enum OrderingRelation { LessThan, LessOrEqual, NotEqual, Equal, GreaterThan, GreaterOrEqual };
-
-		// normal is reverse=false -- this means branching on the false condition, e.g. if condition branching around the then part
-		private string [] normalReverseFalse = { "B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT" };
-
-		// opposite is reverse=true; and this means branching on the said condition
-		private string [] oppositeReverseTrue = { "B.LT", "B.LE", "B.NE", "B.EQ", "B.GT", "B.GE" };
-
 		private readonly List<bool> _labelList = new List<bool> ();
 		private readonly System.IO.TextWriter _output;
 		private int _nextLabelId;
@@ -76,9 +69,40 @@ namespace com.erikeidt.Draconum
 			_output.WriteLine ( "\t{0}\tL{1}", reverse ? "B.TRUE" : "B.FALSE", label.Id );
 		}
 
-		public void GenerateConditionalCompareAndBranch ( OrderingRelation type, BranchTargetLabel label, bool reverse )
+		// normal is reverse=false -- this means branching on the false condition, e.g. if condition branching around the then part
+		// opposite is reverse=true; and this means branching on the said condition
+		private string [] normalReverseFalse = {"B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT"};
+		private string [] oppositeReverseTrue = {"B.LT", "B.LE", "B.NE", "B.EQ", "B.GT", "B.GE"};
+
+		public void GenerateConditionalCompareAndBranch ( Operator op, BranchTargetLabel label, bool reverse )
 		{
-			_output.WriteLine ( "\t{0}\tL{1}", reverse ? oppositeReverseTrue [ (int) type ] : normalReverseFalse [ (int) type ], label.Id );
+			//Handle the Relational Operators: LessThan,LessOrEqual,GreaterThan,GreaterOrEqual,EqualEqual,NotEqual,
+			var branchOpcode = "";
+			switch ( op )
+			{
+				case Operator.LessThan:
+					branchOpcode = reverse ? "B.LT" : "B.GE";
+					break;
+				case Operator.LessOrEqual:
+					branchOpcode = reverse ? "B.LE" : "B.GT";
+					break;
+				case Operator.GreaterThan:
+					branchOpcode = reverse ? "B.GT" : "B.LE";
+					break;
+				case Operator.GreaterOrEqual:
+					branchOpcode = reverse ? "B.GE" : "B.LT";
+					break;
+				case Operator.EqualEqual:
+					branchOpcode = reverse ? "B.EQ" : "B.NE";
+					break;
+				case Operator.NotEqual:
+					branchOpcode = reverse ? "B.NE" : "B.EQ";
+					break;
+				default:
+					throw new AssertionFailedException ( "Operator {0} is not one of the relational operators." + op.ToString () );
+			}
+
+			_output.WriteLine ( "\t{0}\tL{1}", branchOpcode, label.Id );
 		}
 
 		public void InsertComment ( string comment )
@@ -160,7 +184,8 @@ namespace com.erikeidt.Draconum
 			if ( arg == null )
 				return 0;
 
-			if ( arg is ArgumentSeparatorTreeNode comma ) {
+			if ( arg is ArgumentSeparatorTreeNode comma )
+			{
 				var count = EvaluateArgumentList ( comma.Left );
 				comma.Right.GenerateCodeForValue ( this, EvaluationIntention.Value );
 				return count + 1;

@@ -1,5 +1,4 @@
-﻿
-/*
+﻿/*
  *
  * Copyright (c) 2018, Erik L. Eidt
  * All rights Reserved.
@@ -134,19 +133,29 @@ namespace com.erikeidt.Draconum
 		}
 	}
 
+	abstract partial class RelationalOperatorTreeNode : BinaryOperatorTreeNode
+	{
+		public RelationalOperatorTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right )
+			: base ( op, left, right )
+		{
+		}
+	}
+
 	abstract partial class TernaryOperatorTreeNode : OperatorTreeNode
 	{
 		public readonly AbstractSyntaxTree Pre;
 		public readonly AbstractSyntaxTree Mid;
 		public readonly AbstractSyntaxTree Post;
 
-		public TernaryOperatorTreeNode ( Operator op, AbstractSyntaxTree pre, AbstractSyntaxTree mid, AbstractSyntaxTree post )
+		public TernaryOperatorTreeNode ( Operator op, AbstractSyntaxTree pre, AbstractSyntaxTree mid,
+			AbstractSyntaxTree post )
 			: base ( op )
 		{
 			Pre = pre;
 			Mid = mid;
 			Post = post;
 		}
+
 		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
 		{
 			WriteLine ( to, level, string.Format ( "ternop: \'{0}\'", Op ), prolog, 3 );

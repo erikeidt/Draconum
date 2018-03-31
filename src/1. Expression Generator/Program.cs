@@ -71,8 +71,9 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 			public readonly string Token;
 			public readonly string [] Names;
 			public readonly bool HasTreeNodes;
+			public readonly string BaseClass;
 
-			public SemanticOperator ( Section section, Arity arity, int precedence, Associativity lr, string token, string [] names, bool hasTreeNodes )
+			public SemanticOperator ( Section section, Arity arity, int precedence, Associativity lr, string token, string [] names, bool hasTreeNodes, string baseClass )
 			{
 				Section = section;
 				Arity = arity;
@@ -81,6 +82,7 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 				Token = token;
 				Names = names;
 				HasTreeNodes = hasTreeNodes;
+				BaseClass = baseClass;
 			}
 		}
 
@@ -89,12 +91,12 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 
 		private readonly List<SemanticOperator> _semanticOperators = new List<SemanticOperator> ();
 
-		void AddSemanticOperator ( Section kind, Arity arity, int precedence, Associativity lr, string token, string semanticOperatorName, bool hasNodes = true )
+		void AddSemanticOperator ( Section kind, Arity arity, int precedence, Associativity lr, string token, string semanticOperatorName, bool hasNodes = true, string baseClass = null )
 		{
-			AddSemanticOperator ( kind, arity, precedence, lr, token, new string [] { semanticOperatorName }, hasNodes );
+			AddSemanticOperator ( kind, arity, precedence, lr, token, new string [] { semanticOperatorName }, hasNodes, baseClass );
 		}
 
-		void AddSemanticOperator ( Section kind, Arity arity, int precedence, Associativity lr, string token, string [] semanticOperatorNames, bool hasNodes = true )
+		void AddSemanticOperator ( Section kind, Arity arity, int precedence, Associativity lr, string token, string [] semanticOperatorNames, bool hasNodes = true, string baseClass = null )
 		{
 			// this will fail if there's a duplicate, and that's the idea.
 			_syntacticTokens.Add ( new Tuple<Section, string> ( kind, token ) );
@@ -102,7 +104,7 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 			// just ensuring uniqueness here
 			_operatorNames.Add ( (kind == UnaryState ? "Unary" : "Binary") + token );
 
-			_semanticOperators.Add ( new SemanticOperator ( kind, arity, precedence, lr, token, semanticOperatorNames, hasNodes ) );
+			_semanticOperators.Add ( new SemanticOperator ( kind, arity, precedence, lr, token, semanticOperatorNames, hasNodes, baseClass ) );
 		}
 
 		static void Main ( string [] args )
@@ -157,13 +159,13 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 
 			AddSemanticOperator ( BinaryState, Binary, 8, LeftRight, "<=>", "Order" );
 
-			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, "<", "LessThan" );
-			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, "<=", "LessOrEqual" );
-			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, ">", "GreaterThan" );
-			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, ">=", "GreaterOrEqual" );
+			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, "<", "LessThan", true, "Relational" );
+			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, "<=", "LessOrEqual", true, "Relational" );
+			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, ">", "GreaterThan", true, "Relational" );
+			AddSemanticOperator ( BinaryState, Binary, 9, LeftRight, ">=", "GreaterOrEqual", true, "Relational" );
 
-			AddSemanticOperator ( BinaryState, Binary, 10, LeftRight, "==", "EqualEqual" );
-			AddSemanticOperator ( BinaryState, Binary, 10, LeftRight, "!=", "NotEqual" );
+			AddSemanticOperator ( BinaryState, Binary, 10, LeftRight, "==", "EqualEqual", true, "Relational" );
+			AddSemanticOperator ( BinaryState, Binary, 10, LeftRight, "!=", "NotEqual", true, "Relational" );
 
 			AddSemanticOperator ( BinaryState, Binary, 11, LeftRight, "&", "BitwiseAnd" );
 			AddSemanticOperator ( BinaryState, Binary, 12, LeftRight, "^", "BitwiseXor" );
@@ -187,6 +189,12 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "<<=", "AssignmentBitwiseLeftShift" );
 			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, ">>=", "AssignmentBitwiseRightShift" );
 
+			// We'll need two operators for this in our AST's, so we can tell the difference between 
+			//	comma as an expression separator and comma as an argument separator after parsing.
+			//	Parsing removes ()'s and after parsing we'll still need to be able to differentiate
+			//		between	a(x,y) which is a function call with two arguments, x and y,
+			//		and		a((x,y)) which is a function call with one argument 
+			//					(derived from the value of y after evalutating x)
 			AddSemanticOperator ( BinaryState, Binary, 18, LeftRight, ",", new [] { "ExpressionSeparator", "ArgumentSeparator" } );
 
 			var namespacePath = "com.erikeidt.Draconum";
@@ -217,7 +225,7 @@ namespace com.erikeidt.Draconum.ExpressionGenerator
 					operators.Add ( on );
 					precedence.Add ( (so.Precedence * 2 + (so.Lr == RightLeft ? 0 : 1)).ToString () );
 					if ( so.HasTreeNodes ) {
-						treeNodes.Add ( "partial class " + on + "TreeNode : " + so.Arity.ToString () + "OperatorTreeNode {" );
+						treeNodes.Add ( "partial class " + on + "TreeNode : " + (so.BaseClass ?? so.Arity.ToString ())  + "OperatorTreeNode {" );
 						switch ( so.Arity ) {
 						case Unary:
 							arity.Add ( "1" );
