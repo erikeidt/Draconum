@@ -69,11 +69,6 @@ namespace com.erikeidt.Draconum
 			_output.WriteLine ( "\t{0}\tL{1}", reverse ? "B.TRUE" : "B.FALSE", label.Id );
 		}
 
-		// normal is reverse=false -- this means branching on the false condition, e.g. if condition branching around the then part
-		// opposite is reverse=true; and this means branching on the said condition
-		private string [] normalReverseFalse = {"B.GE", "B.GT", "B.EQ", "B.NE", "B.LE", "B.LT"};
-		private string [] oppositeReverseTrue = {"B.LT", "B.LE", "B.NE", "B.EQ", "B.GT", "B.GE"};
-
 		public void GenerateConditionalCompareAndBranch ( Operator op, BranchTargetLabel label, bool reverse )
 		{
 			//Handle the Relational Operators: LessThan,LessOrEqual,GreaterThan,GreaterOrEqual,EqualEqual,NotEqual,
