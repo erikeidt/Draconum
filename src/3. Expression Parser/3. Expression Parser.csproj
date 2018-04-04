@@ -12,11 +12,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="Master Test Results\" />
+		<Compile Include="..\1. Token Scanner\Token Scanner Library\**\*.cs">
+			<Link>Token Scanner Library-Linked\%(RecursiveDir)%(FileName)</Link>
+		</Compile>
 	</ItemGroup>
 
 </Project>

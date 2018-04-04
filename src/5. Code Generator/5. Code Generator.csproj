@@ -12,10 +12,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Compile Include="..\2. Expression Parser\Expression Parser Library\**\*.cs">
+		<Compile Include="..\1. Token Scanner\Token Scanner Library\**\*.cs">
+			<Link>Token Scanner Library-Linked\%(RecursiveDir)%(FileName)</Link>
+		</Compile>
+		<Compile Include="..\3. Expression Parser\Expression Parser Library\**\*.cs">
 			<Link>Expression Parser Library-Linked\%(RecursiveDir)%(FileName)</Link>
 		</Compile>
-		<Compile Include="..\3. Statement Parser\Statement Parser Library\**\*.cs">
+		<Compile Include="..\4. Statement Parser\Statement Parser Library\**\*.cs">
 			<Link>Statement Parser Library-Linked\%(RecursiveDir)%(FileName)</Link>
 		</Compile>
 	</ItemGroup>
