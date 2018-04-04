@@ -69,7 +69,7 @@ namespace com.erikeidt.Draconum
 			// This default implementation generates the value to be tested, and then does a test & branch on that value.
 			// 
 			GenerateCodeForValue ( context, EvaluationIntention.Value );
-			context.GenerateConditionalBranch ( label, reverse );
+			context.GenerateUnaryTestConditionalBranch ( label, reverse );
 
 			// Note: ! && || operators can generate substantially better code using custom implementation rather than this generic one.
 			// Negation is discussed above: 

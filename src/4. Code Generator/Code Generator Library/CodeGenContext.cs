@@ -64,12 +64,12 @@ namespace com.erikeidt.Draconum
 			_output.WriteLine ( "\t{0}\tL{1}", "JUMP", label.Id );
 		}
 
-		public void GenerateConditionalBranch ( BranchTargetLabel label, bool reverse )
+		public void GenerateUnaryTestConditionalBranch ( BranchTargetLabel label, bool reverse )
 		{
 			_output.WriteLine ( "\t{0}\tL{1}", reverse ? "B.TRUE" : "B.FALSE", label.Id );
 		}
 
-		public void GenerateConditionalCompareAndBranch ( Operator op, BranchTargetLabel label, bool reverse )
+		public void GenerateBinaryCompareConditionalBranch ( Operator op, BranchTargetLabel label, bool reverse )
 		{
 			//Handle the Relational Operators: LessThan,LessOrEqual,GreaterThan,GreaterOrEqual,EqualEqual,NotEqual,
 			var branchOpcode = "";
@@ -94,7 +94,7 @@ namespace com.erikeidt.Draconum
 					branchOpcode = reverse ? "B.NE" : "B.EQ";
 					break;
 				default:
-					throw new AssertionFailedException ( "Operator {0} is not one of the relational operators." + op.ToString () );
+					throw new AssertionFailedException ( "Operator is not one of the relational operators: " + op.ToString () );
 			}
 
 			_output.WriteLine ( "\t{0}\tL{1}", branchOpcode, label.Id );

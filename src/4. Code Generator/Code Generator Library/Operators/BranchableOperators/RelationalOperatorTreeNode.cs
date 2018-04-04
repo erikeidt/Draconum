@@ -10,7 +10,7 @@ namespace com.erikeidt.Draconum
 	    {
 		    Left.GenerateCodeForValue ( context, EvaluationIntention.Value );
 		    Right.GenerateCodeForValue ( context, EvaluationIntention.Value );
-		    context.GenerateConditionalCompareAndBranch ( Op, label, reverse );
+		    context.GenerateBinaryCompareConditionalBranch ( Op, label, reverse );
 	    }
     }
 }
