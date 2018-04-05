@@ -14,7 +14,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace com.erikeidt.Draconum.ExpressionGenerator
+namespace com.erikeidt.Draconum.ExpressionParserTableGenerator
 {
 	using static Program.Section;
 	using static Program.Arity;

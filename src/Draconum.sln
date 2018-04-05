@@ -19,13 +19,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "3. Expression Parser", "3. Expression Parser\3. Expression Parser.csproj", "{B151D088-AE4D-4C8F-A17B-4A5B969C859A}"
 	ProjectSection(ProjectDependencies) = postProject
-		{8283591B-542C-4238-A38B-402CF3D95F44} = {8283591B-542C-4238-A38B-402CF3D95F44}
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0} = {6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "4. Statement Parser", "4. Statement Parser\4. Statement Parser.csproj", "{180BD10E-B042-486C-A999-1FB6F727D5A9}"
 	ProjectSection(ProjectDependencies) = postProject
-		{8283591B-542C-4238-A38B-402CF3D95F44} = {8283591B-542C-4238-A38B-402CF3D95F44}
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0} = {6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}
 		{B151D088-AE4D-4C8F-A17B-4A5B969C859A} = {B151D088-AE4D-4C8F-A17B-4A5B969C859A}
 	EndProjectSection
@@ -33,14 +31,13 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "5. Code Generator", "5. Code Generator\5. Code Generator.csproj", "{8F4EB1F8-72F1-4720-8225-6D15097B1EE2}"
 	ProjectSection(ProjectDependencies) = postProject
 		{180BD10E-B042-486C-A999-1FB6F727D5A9} = {180BD10E-B042-486C-A999-1FB6F727D5A9}
-		{8283591B-542C-4238-A38B-402CF3D95F44} = {8283591B-542C-4238-A38B-402CF3D95F44}
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0} = {6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}
 		{B151D088-AE4D-4C8F-A17B-4A5B969C859A} = {B151D088-AE4D-4C8F-A17B-4A5B969C859A}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "1. Token Scanner", "1. Token Scanner\1. Token Scanner.csproj", "{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2. Expression Parser Table Generator", "2. Expression Parser Tabel Generator\2. Expression Parser Table Generator.csproj", "{8283591B-542C-4238-A38B-402CF3D95F44}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "2. Expression Parser Table Generator", "2. Expression Parser Table Generator\2. Expression Parser Table Generator.csproj", "{12E9F9DD-2D2F-4940-8D27-C5B1AA6B7423}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -64,10 +61,10 @@ Global
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6027065C-E3C4-42AC-AC97-5CBDE81DFEF0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8283591B-542C-4238-A38B-402CF3D95F44}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8283591B-542C-4238-A38B-402CF3D95F44}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8283591B-542C-4238-A38B-402CF3D95F44}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8283591B-542C-4238-A38B-402CF3D95F44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{12E9F9DD-2D2F-4940-8D27-C5B1AA6B7423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{12E9F9DD-2D2F-4940-8D27-C5B1AA6B7423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{12E9F9DD-2D2F-4940-8D27-C5B1AA6B7423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{12E9F9DD-2D2F-4940-8D27-C5B1AA6B7423}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

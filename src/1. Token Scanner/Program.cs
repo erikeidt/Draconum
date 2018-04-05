@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace _2._Expression_Scanner
+namespace com.erikeidt.Draconum.TokenScannerTest
 {
     class Program
     {
