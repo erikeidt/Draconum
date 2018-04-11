@@ -177,17 +177,17 @@ namespace com.erikeidt.Draconum.ExpressionParserTableGenerator
 			AddSemanticOperator ( BinaryState, Binary, 16, RightLeft, "?", "TernaryTest", false );
 			AddSemanticOperator ( BinaryState, Ternary, 16, RightLeft, ":", "TernaryChoice" );
 
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "=", "Assignment" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "*=", "AssignmentMultiplication" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "/=", "AssignmentDivision" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "%=", "AssignmentModulo" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "+=", "AssignmentAddition" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "-=", "AssignmentSubtraction" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "&=", "AssignmentBitwiseAnd" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "^=", "AssignmentBitwiseXor" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "|=", "AssignmentBitwiseOr" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "<<=", "AssignmentBitwiseLeftShift" );
-			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, ">>=", "AssignmentBitwiseRightShift" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "=", "Assignment", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "*=", "AssignmentMultiplication", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "/=", "AssignmentDivision", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "%=", "AssignmentModulo", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "+=", "AssignmentAddition", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "-=", "AssignmentSubtraction", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "&=", "AssignmentBitwiseAnd", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "^=", "AssignmentBitwiseXor", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "|=", "AssignmentBitwiseOr", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, "<<=", "AssignmentBitwiseLeftShift", true, "Assignment" );
+			AddSemanticOperator ( BinaryState, Binary, 17, RightLeft, ">>=", "AssignmentBitwiseRightShift", true, "Assignment" );
 
 			// We'll need two operators for this in our AST's, so we can tell the difference between 
 			//	comma as an expression separator and comma as an argument separator after parsing.

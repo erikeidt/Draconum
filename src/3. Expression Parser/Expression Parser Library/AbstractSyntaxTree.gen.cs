@@ -161,47 +161,47 @@ namespace com.erikeidt.Draconum {
 		public TernaryChoiceTreeNode ( Operator op, AbstractSyntaxTree pre, AbstractSyntaxTree mid, AbstractSyntaxTree post ) : base ( op, pre, mid, post ) { }
 	}
 
-	partial class AssignmentTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentMultiplicationTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentMultiplicationTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentMultiplicationTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentDivisionTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentDivisionTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentDivisionTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentModuloTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentModuloTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentModuloTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentAdditionTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentAdditionTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentAdditionTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentSubtractionTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentSubtractionTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentSubtractionTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentBitwiseAndTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentBitwiseAndTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentBitwiseAndTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentBitwiseXorTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentBitwiseXorTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentBitwiseXorTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentBitwiseOrTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentBitwiseOrTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentBitwiseOrTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentBitwiseLeftShiftTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentBitwiseLeftShiftTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentBitwiseLeftShiftTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 
-	partial class AssignmentBitwiseRightShiftTreeNode : BinaryOperatorTreeNode {
+	partial class AssignmentBitwiseRightShiftTreeNode : AssignmentOperatorTreeNode {
 		public AssignmentBitwiseRightShiftTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right ) : base ( op, left, right ) { }
 	}
 

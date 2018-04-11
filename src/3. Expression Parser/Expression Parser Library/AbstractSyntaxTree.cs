@@ -164,4 +164,11 @@ namespace com.erikeidt.Draconum
 			Post.PrettyPrint ( to, level + 1 );
 		}
 	}
+
+	abstract partial class AssignmentOperatorTreeNode : BinaryOperatorTreeNode {
+		public AssignmentOperatorTreeNode ( Operator op, AbstractSyntaxTree left, AbstractSyntaxTree right )
+			: base ( op, left, right )
+		{
+		}
+	}
 }

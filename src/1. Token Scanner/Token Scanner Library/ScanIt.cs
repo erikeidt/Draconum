@@ -463,19 +463,19 @@ namespace com.erikeidt.Draconum
 			return ans;
 		}
 
-		//public long SignedInteger ()
-		//{
-		//	Trim ();
-		//	var neg = false;
-		//	if ( _curr.Value == '-' ) {
-		//		neg = true;
-		//		Advance ();
-		//	} else if ( _curr.Value == '+' ) {
-		//		Advance ();
-		//	}
-		//	var ans = GetNonNegativeIntegralLiteral ();
-		//	return neg ? -ans : ans;
-		//}
+		public long GetSignedInteger ()
+		{
+			Trim ();
+			var neg = false;
+			if ( _curr.Value == '-' ) {
+				neg = true;
+				Advance ();
+			} else if ( _curr.Value == '+' ) {
+				Advance ();
+			}
+			var ans = GetNonNegativeIntegralLiteral ();
+			return neg ? -ans : ans;
+		}
 
 		/// <summary>
 		///		fetches a String Literal, given that the caller knows it is one already
@@ -551,13 +551,13 @@ namespace com.erikeidt.Draconum
 			return mark.OfLength ( length );
 		}
 
-		//public bool IfTokenNoAdvance ( char what )
-		//{
-		//	Trim ();
-		//	if ( _curr.Value != what )
-		//		return false;
-		//	return true;
-		//}
+		public bool IfTokenNoAdvance ( char what )
+		{
+			Trim ();
+			if ( _curr.Value != what )
+				return false;
+			return true;
+		}
 
 		/// <summary>
 		///		used to consume single character tokens, e.g.

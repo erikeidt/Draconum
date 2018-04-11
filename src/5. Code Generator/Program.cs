@@ -57,6 +57,10 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 1450, "(a() && b()) + 3;" );
 			Test ( 1451, "(a() || b()) + 3;" );
 
+			Test ( 1600, "s += a[i];" );
+			Test ( 1601, "a[i] += s; " );
+			Test ( 1602, "a[i]++;" );
+
 			Test ( 1800, "a ? b : c;" );
 			Test ( 1801, "e = a ? b : c;" );
 			Test ( 1802, "a(0) ? b(1) : c(2);" );
@@ -68,6 +72,7 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 2004, "for(;;) { if ( a && b ) { c=1; break; } }" );
 
 			Test ( 2005, "for(;;) { a = 1; break; }" );
+
 			Test ( 2400, "a=b=c;" );
 
 			Test ( 3000, "for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }" );
@@ -97,6 +102,8 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			Test ( 3802, "if ( a > 1 && a < 7 ) { c = 1; } else { d = 2; }" );
 			Test ( 3803, "if ( a < 1 || a > 8 ) { c = 1; } else { d = 2; }" );
 			Test ( 3804, "if ( a <= 1 || a >= 8 ) { c = 1; } else { d = 2; }" );
+
+			Test ( 3900, "for ( i = 0; i < 100; i++ ) { if ( a[i] != b[i] ) break; s += a[i] * b[i]; }" );
 
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
