@@ -17,11 +17,11 @@ namespace com.erikeidt.Draconum
 
 	struct CodePoint
 	{
-		public const int CodePointEofValue = -1;
+		public const int EofValue = -1;
 
 		public readonly int Value;
 
-		public static readonly CodePoint Eof = new CodePoint ( CodePointEofValue );
+		public static readonly CodePoint Eof = new CodePoint ( EofValue );
 
 		public CodePoint ( byte cp )
 		{
@@ -37,7 +37,7 @@ namespace com.erikeidt.Draconum
 
 		public bool AtEOF ()
 		{
-			return Value == CodePointEofValue;
+			return Value == EofValue;
 		}
 
 		public CodePoint ( byte b, byte c )

@@ -25,10 +25,12 @@ namespace com.erikeidt.Draconum
 		private readonly Stack<Operator> _operatorStack = new Stack<Operator> ();
 		private readonly Stack<AbstractSyntaxTree> _operandStack = new Stack<AbstractSyntaxTree> ();
 		private readonly ScanIt _scanner;
+		private readonly ISymbolTable _symbolTable;
 
-		public ExpressionParser ( ScanIt scanner )
+		public ExpressionParser ( ScanIt scanner, ISymbolTable symbolTable )
 		{
 			_scanner = scanner;
+			_symbolTable = symbolTable;
 		}
 
 		/// <summary>
@@ -112,7 +114,9 @@ namespace com.erikeidt.Draconum
 				for ( ; ; ) // Unary State
 				{
 					var token = _scanner.Token ();
+
 					switch ( token.Value ) {
+
 					case '(':
 						_scanner.Advance ();
 						_operatorStack.Push ( Operator
@@ -136,39 +140,48 @@ namespace com.erikeidt.Draconum
 						_scanner.Advance ();
 						_operatorStack.Push ( Operator.LogicalNot ); // prefix unary operators have implicit highest precedence
 						continue;
+
 					case '&':
 						_scanner.Advance ();
 						_operatorStack.Push ( Operator.AddressOf );
 						continue;
+
 					case '*':
 						_scanner.Advance ();
 						_operatorStack.Push ( Operator.Indirection );
 						continue;
+
 					case '+':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '+', Operator.PrefixIncrement, Operator.FixPoint );
 						continue;
+
 					case '-':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '-', Operator.PrefixDecrement, Operator.Negation );
 						continue;
+
 					case '~':
 						_scanner.Advance ();
 						_operatorStack.Push ( Operator.BitwiseComplement );
 						continue;
+
 					case 'A':
 						var id = _scanner.GetIdentifier ();
 						// we can look up the variable in a symbol table here
-						_operandStack.Push ( new VariableTreeNode ( id ) );
+						_operandStack.Push ( _symbolTable.LookupSymbol (  id ) );
 						break;
+
 					case '0':
 						var num = _scanner.GetNonNegativeIntegralLiteral ();
 						_operandStack.Push ( new LongIntegerTreeNode ( num ) );
 						break;
+
 					case '\"':
 						var str = _scanner.GetStringLiteral ();
 						_operandStack.Push ( new StringTreeNode ( str ) );
 						break;
+
 					case '\'':
 						var chStr = _scanner.GetStringLiteral ();
 						var cps = new CodePointStream ( chStr );
@@ -178,7 +191,7 @@ namespace com.erikeidt.Draconum
 						var cp2 = cps.Read ();
 						if ( !cp2.AtEOF () )
 							_scanner.ErrorAtMark ( "too many characters in character literal" );
-						_operandStack.Push ( new CharacterTreeNode ( cp1.Value ) );
+						_operandStack.Push ( new LongIntegerTreeNode ( cp1.Value ) );
 						break;
 
 					default:
@@ -188,6 +201,7 @@ namespace com.erikeidt.Draconum
 
 					break; // switch to Binary State
 				} // for (;;) { end of Unary State
+
 				for ( ; ; ) // Binary State
 				{
 					var cp = _scanner.Token ();
@@ -195,14 +209,17 @@ namespace com.erikeidt.Draconum
 						return;
 
 					switch ( cp.Value ) {
+
 					case '(':
 						_scanner.Advance ();
 						ReduceThenPushOperator ( Operator.FunctionCall );
 						break;
+
 					case ',':
 						_scanner.Advance ();
 						AcceptComma ();
 						break;
+
 					case ')':
 						_scanner.Advance ();
 						AcceptCloseParen ();
@@ -212,6 +229,7 @@ namespace com.erikeidt.Draconum
 						_scanner.Advance ();
 						ReduceThenPushOperator ( Operator.Subscript );
 						break;
+
 					case ']':
 						_scanner.Advance ();
 						// we have a [ b ], so we reduce until we reach the '['
@@ -231,18 +249,22 @@ namespace com.erikeidt.Draconum
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '=', Operator.AssignmentMultiplication, Operator.Multiplication );
 						break;
+
 					case '/':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '=', Operator.AssignmentDivision, Operator.Division );
 						break;
+
 					case '%':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '=', Operator.AssignmentModulo, Operator.Modulo );
 						break;
+
 					case '=':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '=', Operator.EqualEqual, Operator.Assignment );
 						break;
+
 					case '^':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '=', Operator.AssignmentBitwiseXor, Operator.BitwiseXor );
@@ -258,6 +280,7 @@ namespace com.erikeidt.Draconum
 
 						ReduceAndPushByChoice ( '=', Operator.AssignmentAddition, Operator.Addition );
 						break;
+
 					case '-':
 						_scanner.Advance ();
 						if ( _scanner.IfCharacter ( '>' ) ) {
@@ -283,6 +306,7 @@ namespace com.erikeidt.Draconum
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '&', Operator.ShortCircutAnd, '=', Operator.AssignmentBitwiseAnd, Operator.BitwiseAnd );
 						break;
+
 					case '|':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '|', Operator.ShortCircutOr, '=', Operator.AssignmentBitwiseOr, Operator.BitwiseOr );
@@ -294,25 +318,20 @@ namespace com.erikeidt.Draconum
 					case '?':
 						_scanner.Advance ();
 						// Operator.TernaryTest is used for grouping of the expressions during parsing,
-						//	This operator won't appear in the final tree (like Operator.GroupingParen)
+						//	This operator won't appear in the final tree (similar to Operator.GroupingParen which doesn't appear in the abstract tree either)
 						ReduceThenPushOperator ( Operator.TernaryTest );
-						//// NB: we fake an open paren here:
-						////	this is necessary to handle: a?b,c:d, which should parse ok as:
+						// Test 1003: a?b,c:d, which should parse ok as:
 						////			a?(b,c):d 
-						////			   -not-
+						////			   -and not-
 						////			(a?b),(c:d)
 						////			   as this makes no sense and thus is not helpful
-						//_operatorStack.Push ( Operator.None );
 						break;
+
 					case ':':
 						_scanner.Advance ();
 						if ( _scanner.IfCharacter ( ':' ) ) {
 							throw new System.NotImplementedException ( ":: operator" );
 						} else {
-							//// NB: this close ')' is the dual to the fake '(' inserted by '?'
-							//ReduceUntilMatch ( Operator.None );
-							// We reduce.  We're looing for Operator.TernaryTest 
-							//	similar to how ']' reduces until we find the matching '['
 							ReduceUntilMatch ( Operator.TernaryTest );
 							// this will leave two operands on the stack, so for
 							//		a ? b :			-- which is what we have so far
@@ -323,7 +342,6 @@ namespace com.erikeidt.Draconum
 							//		a ? b : c;
 							// reducing this operator will consume a, b, and c.
 						}
-
 						break;
 
 					case '<':
@@ -331,6 +349,7 @@ namespace com.erikeidt.Draconum
 						ReduceAndPushByChoice ( '<', '=', Operator.AssignmentBitwiseLeftShift, Operator.BitwiseLeftShift, '=',
 							Operator.LessOrEqual, Operator.LessThan );
 						break;
+
 					case '>':
 						_scanner.Advance ();
 						ReduceAndPushByChoice ( '>', '=', Operator.AssignmentBitwiseRightShift, Operator.BitwiseRightShift, '=',
@@ -339,6 +358,7 @@ namespace com.erikeidt.Draconum
 
 					default:
 						return; // let caller deal with the "unexpected" input, like ;
+
 					}
 
 					break; // switch to Unary State

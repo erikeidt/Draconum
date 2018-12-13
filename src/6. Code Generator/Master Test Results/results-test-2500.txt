@@ -1,0 +1,9 @@
+------ Test: 2500 ------		break;
+
+break;
+      ^
+results-test-2500.txt: Parse End on line 1 (character offset 6)
+
+break not nested within a break'able statement
+
+

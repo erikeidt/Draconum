@@ -4,5 +4,5 @@
    ^
 results-test-7034.txt: Parse End on line 1 (character offset 3)
 
-    +---char: '73'
+    +---num: '73'
 

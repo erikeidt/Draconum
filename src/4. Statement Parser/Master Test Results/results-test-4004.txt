@@ -1,0 +1,11 @@
+------ Test: 4004 ------		L1 + L2: ;
+
+L1 + L2: ;
+       ^
+results-test-4004.txt: Expected character: ';' instead of: ':' on line 1 (character offset 7)
+L1 + L2: ;
+       ^
+results-test-4004.txt: Parse End on line 1 (character offset 7)
+
+Expected character: ';' instead of: ':'
+

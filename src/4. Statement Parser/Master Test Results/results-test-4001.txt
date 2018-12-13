@@ -1,0 +1,12 @@
+------ Test: 4001 ------		L1: a = b;
+
+L1: a = b;
+          ^
+results-test-4001.txt: Parse End on line 1 (character offset 10)
+
+    +---Label: L1
+        +---Statement	Expression Statement
+            +---binop: 'Assignment'
+                +---Var: 'a'
+                +---Var: 'b'
+

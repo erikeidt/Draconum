@@ -1,0 +1,28 @@
+------ Test: 3200 ------		a[i](1);
+
+a[i](1);
+        ^
+results-test-3200.txt: Parse End on line 1 (character offset 8)
+
+    +---Expression Statement
+        +---binop: 'FunctionCall'
+            +---binop: 'Subscript'
+            |   +---Var: 'a'
+            |   +---Var: 'i'
+            +---num: '1'
+
+    .decl       a            
+    .decl       i            
+                             +---Expression Statement
+                                 +---binop: 'FunctionCall'
+                                     +---binop: 'Subscript'
+                                     |   +---Var: 'a'
+    PUSH        a                    |   |
+                                     |   +---Var: 'i'
+    PUSH        i                    |   
+    Subscript                        |   
+                                     +---num: '1'
+    PUSH        #1                   
+    ICALL       #1                   
+    POP                              
+

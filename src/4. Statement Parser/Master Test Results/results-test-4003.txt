@@ -1,0 +1,13 @@
+------ Test: 4003 ------		L1: a ? b : c;
+
+L1: a ? b : c;
+              ^
+results-test-4003.txt: Parse End on line 1 (character offset 14)
+
+    +---Label: L1
+        +---Statement	Expression Statement
+            +---ternop: 'TernaryChoice'
+                +---Test	Var: 'a'
+                +---True	Var: 'b'
+                +---False	Var: 'c'
+

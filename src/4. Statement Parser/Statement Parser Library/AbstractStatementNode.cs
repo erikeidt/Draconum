@@ -11,6 +11,7 @@
  *
  */
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -28,28 +29,32 @@ namespace com.erikeidt.Draconum
 		{
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, "Empty Statement", prolog );
+			WriteLine ( "Empty Statement", prolog );
 		}
 	}
 
-
 	partial class DeclarationStatement : AbstractStatementNode
 	{
-		public readonly List<AbstractSyntaxTree> Declartions;
+		public readonly List<AbstractSyntaxTree> Declarations;
 
-		public DeclarationStatement ( List<AbstractSyntaxTree> declartions )
+		public DeclarationStatement ( List<AbstractSyntaxTree> declarations )
 		{
-			Declartions = declartions;
+			Declarations = declarations;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, "Declaration Statement", prolog, Declartions.Count );
+			WriteLine ( "Declaration Statement", prolog, Declarations.Count );
+		}
 
-			foreach ( var decl in Declartions )
-				decl.PrettyPrint ( to, level + 1, null );
+		public override void PrettyPrintBody ()
+		{
+			for ( int i = 0; i < Declarations.Count; i++ )
+			{
+				Declarations [ i ].PrettyPrint ( ".decl" );
+			}
 		}
 	}
 
@@ -62,10 +67,14 @@ namespace com.erikeidt.Draconum
 			Expression = expression;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
-			WriteLine ( to, level, "Expression Statement", prolog, 1 );
-			Expression.PrettyPrint ( to, level + 1, null );
+			WriteLine ( "Expression Statement", prolog, 1 );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			Expression.PrettyPrint ();
 		}
 	}
 
@@ -78,11 +87,17 @@ namespace com.erikeidt.Draconum
 			Statements = statements;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
-			WriteLine ( to, level, "Block Statement", prolog, Statements.Count );
-			foreach ( var stmt in Statements )
-				stmt.PrettyPrint ( to, level + 1, null );
+			WriteLine ( "Block Statement", prolog, Statements.Count );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			for ( int i = 0; i < Statements.Count; i++ )
+			{
+				Statements [ i ].PrettyPrint ();
+			}
 		}
 	}
 
@@ -99,21 +114,27 @@ namespace com.erikeidt.Draconum
 			ElsePart = elsePart;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
 			int arity = ElsePart == null ? 2 : 3;
-			WriteLine ( to, level, arity == 3 ? "If-Then-Else Statement" : "If-Then Statement", prolog, arity );
-			Condition.PrettyPrint ( to, level + 1, "Condition\t" );
-			ThenPart.PrettyPrint ( to, level + 1, "ThenPart\t" );
-			ElsePart?.PrettyPrint ( to, level + 1, "ElsePart\t" );
+			WriteLine ( arity == 3 ? "If-Then-Else Statement" : "If-Then Statement", prolog, arity );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			Condition.PrettyPrint ( "Condition\t" );
+			ThenPart.PrettyPrint ( "ThenPart\t" );
+			ElsePart?.PrettyPrint ( "ElsePart\t" );
 		}
 	}
 
+	// continuable statement & switches use this base class
 	abstract partial class BreakableStatement : AbstractStatementNode
 	{
 		public bool HasBreak;
 	}
 
+	// loops use this base class
 	abstract partial class ContinueableStatement : BreakableStatement
 	{
 		public bool HasContinue;
@@ -133,14 +154,22 @@ namespace com.erikeidt.Draconum
 			Increment = increment;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		private string initText = "Initialization\t";
+		private string condText = "Condition\t";
+		private string incrText = "Increment\t";
+		private string bodyText = "Body\t";
+
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			int arity = 1 + (Initialization != null ? 1 : 0) + (Condition != null ? 1 : 0) + (Increment != null ? 1 : 0);
-			WriteLine ( to, level, "For Statement", prolog, arity );
-			Initialization?.PrettyPrint ( to, level + 1, "Initialization\t" );
-			Condition?.PrettyPrint ( to, level + 1, "Condition\t" );
-			Increment?.PrettyPrint ( to, level + 1, "Increment\t" );
-			Body.PrettyPrint ( to, level + 1, "Body\t" );
+			int arity = 1 + ( Initialization != null ? 1 : 0 ) + ( Condition != null ? 1 : 0 ) + ( Increment != null ? 1 : 0 );
+			WriteLine ( "For Statement", prolog, arity );
+		}
+
+		public override void PrettyPrintBody () {
+			Initialization?.PrettyPrint ( initText );
+			Condition?.PrettyPrint ( condText );
+			Increment?.PrettyPrint ( incrText );
+			Body.PrettyPrint ( bodyText );
 		}
 	}
 
@@ -153,15 +182,16 @@ namespace com.erikeidt.Draconum
 			ReturnValue = returnValue;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
 			if ( ReturnValue == null )
-				WriteLine ( to, level, "Return Statement (Void)", prolog );
+				WriteLine ( "Return Statement (Void)", prolog );
 			else
-			{
-				WriteLine ( to, level, "Return Statement", prolog, 1 );
-				ReturnValue.PrettyPrint ( to, level + 1, "Return Value\t" );
-			}
+				WriteLine ( "Return Statement", prolog, 1 );
+		}
+
+		public override void PrettyPrintBody () {
+			ReturnValue?.PrettyPrint ( "Return Value\t" );
 		}
 	}
 
@@ -178,9 +208,9 @@ namespace com.erikeidt.Draconum
 			EnclosingStatement = enclosingStatement;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
-			WriteLine ( to, level, "Break Statement", prolog );
+			WriteLine ( "Break Statement", prolog );
 		}
 	}
 
@@ -193,9 +223,9 @@ namespace com.erikeidt.Draconum
 			EnclosingStatement = enclosingStatement;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
-			WriteLine ( to, level, "Continue Statement", prolog );
+			WriteLine ( "Continue Statement", prolog );
 		}
 	}
 
@@ -218,9 +248,9 @@ namespace com.erikeidt.Draconum
 			GotoTarget = gotoTarget;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
-			WriteLine ( to, level, "Goto: " + GotoTarget.Name, prolog );
+			WriteLine ( "Goto: " + GotoTarget.Name, prolog );
 		}
 	}
 
@@ -235,19 +265,22 @@ namespace com.erikeidt.Draconum
 			Statement = statement;
 		}
 
-		public override void PrettyPrint ( TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog )
 		{
 			if ( Statement == null )
 			{
 				// case of label at the end of a method, applies to no actual statement
-				WriteLine ( to, level, "Label: " + Label.Name, prolog );
+				WriteLine ( "Label: " + Label.Name, prolog );
 			}
 			else
 			{
-				WriteLine ( to, level, "Label: " + Label.Name, prolog, 1 );
-				Statement.PrettyPrint ( to, level + 1, "Statement\t" );
+				WriteLine ( "Label: " + Label.Name, prolog, 1 );
 			}
 		}
-	}
 
+		public override void PrettyPrintBody ()
+		{
+			Statement?.PrettyPrint ( "Statement\t" );
+		}
+	}
 }

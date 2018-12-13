@@ -1,0 +1,35 @@
+------ Test: 1451 ------		(a() || b()) + 3;
+
+(a() || b()) + 3;
+                 ^
+results-test-1451.txt: Parse End on line 1 (character offset 17)
+
+    +---Expression Statement
+        +---binop: 'Addition'
+            +---binop: 'ShortCircutOr'
+            |   +---binop: 'FunctionCall'
+            |   |   +---Var: 'a'
+            |   |   +---<empty>
+            |   +---binop: 'FunctionCall'
+            |       +---Var: 'b'
+            |       +---<empty>
+            +---num: '3'
+
+    .decl       a            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'Addition'
+                                     +---binop: 'ShortCircutOr'
+                                     |   +---binop: 'FunctionCall'
+                                     |   |   +---Var: 'a'
+                                     |   |   +---<empty>
+    CALL        a, #0                |   |   
+    B.TRUE      L0                   |   |   
+                                     |   +---binop: 'FunctionCall'
+                                     |       +---Var: 'b'
+                                     |       +---<empty>
+    CALL        b, #0                |       
+    POP                              |       
+L0:                                  |       
+                                     +---num: '3'
+

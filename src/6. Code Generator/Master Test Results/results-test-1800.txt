@@ -1,0 +1,26 @@
+------ Test: 1800 ------		a ? b : c;
+
+a ? b : c;
+          ^
+results-test-1800.txt: Parse End on line 1 (character offset 10)
+
+    +---Expression Statement
+        +---ternop: 'TernaryChoice'
+            +---Test	Var: 'a'
+            +---True	Var: 'b'
+            +---False	Var: 'c'
+
+    .decl       a            
+    .decl       b            
+    .decl       c            
+                             +---Expression Statement
+                                 +---ternop: 'TernaryChoice'
+                                     +---Var: 'a'
+    PUSH        a                    |
+    B.FALSE     L0                   |
+                                     +---Var: 'b'
+    JUMP        L1                   |
+L0:                                  |
+                                     +---Var: 'c'
+L1:                                  
+

@@ -1,0 +1,24 @@
+------ Test: 1602 ------		a[i]++;
+
+a[i]++;
+       ^
+results-test-1602.txt: Parse End on line 1 (character offset 7)
+
+    +---Expression Statement
+        +---unop: 'PostfixIncrement'
+            +---binop: 'Subscript'
+                +---Var: 'a'
+                +---Var: 'i'
+
+    .decl       a            
+    .decl       i            
+                             +---Expression Statement
+                                 +---unop: 'PostfixIncrement'
+                                     +---binop: 'Subscript'
+                                         +---Var: 'a'
+    PUSH        a                        |
+                                         +---Var: 'i'
+    PUSH        i                        
+    AddIndex                             
+    IINC                                 
+

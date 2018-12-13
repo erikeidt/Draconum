@@ -1,0 +1,34 @@
+------ Test: 1801 ------		e = a ? b : c;
+
+e = a ? b : c;
+              ^
+results-test-1801.txt: Parse End on line 1 (character offset 14)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'e'
+            +---ternop: 'TernaryChoice'
+                +---Test	Var: 'a'
+                +---True	Var: 'b'
+                +---False	Var: 'c'
+
+    .decl       e            
+    .decl       a            
+    .decl       b            
+    .decl       c            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---Var: 'e'
+                                     +---ternop: 'TernaryChoice'
+                                         +---Var: 'a'
+    PUSH        a                        |
+    B.FALSE     L0                       |
+                                         +---Var: 'b'
+    PUSH        b                        |
+    JUMP        L1                       |
+L0:                                      |
+                                         +---Var: 'c'
+    PUSH        c                        
+L1:                                      
+    POP         e                        
+

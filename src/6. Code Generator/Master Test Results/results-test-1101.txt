@@ -1,0 +1,21 @@
+------ Test: 1101 ------		a || b;
+
+a || b;
+       ^
+results-test-1101.txt: Parse End on line 1 (character offset 7)
+
+    +---Expression Statement
+        +---binop: 'ShortCircutOr'
+            +---Var: 'a'
+            +---Var: 'b'
+
+    .decl       a            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'ShortCircutOr'
+                                     +---Var: 'a'
+    PUSH        a                    |
+    B.TRUE      L0                   |
+                                     +---Var: 'b'
+L0:                                  
+

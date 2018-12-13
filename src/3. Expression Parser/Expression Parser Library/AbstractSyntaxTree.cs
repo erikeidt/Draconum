@@ -32,9 +32,9 @@ namespace com.erikeidt.Draconum
 			Value = variableName;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "Var: '{0}'", Value ), prolog );
+			WriteLine ( string.Format ( "Var: '{0}'", Value ), prolog );
 		}
 	}
 
@@ -47,9 +47,9 @@ namespace com.erikeidt.Draconum
 			Value = numericLiteral;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "num: '{0}'", Value ), prolog );
+			WriteLine ( string.Format ( "num: '{0}'", Value ), prolog );
 		}
 	}
 
@@ -62,12 +62,13 @@ namespace com.erikeidt.Draconum
 			Value = stringLiteral;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "string: \"{0}\"", Value ), prolog );
+			WriteLine ( string.Format ( "string: \"{0}\"", Value ), prolog );
 		}
 	}
 
+	/*
 	partial class CharacterTreeNode : AbstractSyntaxTree
 	{
 		public readonly int Value;
@@ -77,11 +78,12 @@ namespace com.erikeidt.Draconum
 			Value = charLiteral;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "char: \'{0}\'", Value ), prolog );
+			WriteLine ( string.Format ( "char: \'{0}\'", Value ), prolog );
 		}
 	}
+	*/
 
 	abstract partial class OperatorTreeNode : AbstractSyntaxTree
 	{
@@ -103,10 +105,14 @@ namespace com.erikeidt.Draconum
 			Arg = arg;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "unop: \'{0}\'", Op ), prolog, 1 );
-			Arg.PrettyPrint ( to, level + 1 );
+			WriteLine ( string.Format ( "unop: \'{0}\'", Op ), prolog, 1 );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			Arg.PrettyPrint ();
 		}
 	}
 
@@ -122,14 +128,18 @@ namespace com.erikeidt.Draconum
 			Right = right;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog = "" )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "binop: \'{0}\'", Op ), prolog, 2 );
-			Left.PrettyPrint ( to, level + 1, null );
+			WriteLine ( string.Format ( "binop: \'{0}\'", Op ), prolog, 2 );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			Left.PrettyPrint ();
 			if ( Right != null )
-				Right.PrettyPrint ( to, level + 1, null );
+				Right.PrettyPrint ();
 			else
-				WriteLine ( to, level + 1, "<empty>" );
+				Dump.WriteLine ( "<empty>" );
 		}
 	}
 
@@ -156,12 +166,16 @@ namespace com.erikeidt.Draconum
 			Post = post;
 		}
 
-		public override void PrettyPrint ( System.IO.TextWriter to, int level, string prolog )
+		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( to, level, string.Format ( "ternop: \'{0}\'", Op ), prolog, 3 );
-			Pre.PrettyPrint ( to, level + 1 );
-			Mid.PrettyPrint ( to, level + 1 );
-			Post.PrettyPrint ( to, level + 1 );
+			WriteLine ( string.Format ( "ternop: \'{0}\'", Op ), prolog, 3 );
+		}
+
+		public override void PrettyPrintBody ()
+		{
+			Pre.PrettyPrint ( "Test\t" );
+			Mid.PrettyPrint ( "True\t" );
+			Post.PrettyPrint ( "False\t" );
 		}
 	}
 

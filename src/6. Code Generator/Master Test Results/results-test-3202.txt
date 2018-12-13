@@ -1,0 +1,47 @@
+------ Test: 3202 ------		a[i] = b[i] = c[i];
+
+a[i] = b[i] = c[i];
+                   ^
+results-test-3202.txt: Parse End on line 1 (character offset 19)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---binop: 'Subscript'
+            |   +---Var: 'a'
+            |   +---Var: 'i'
+            +---binop: 'Assignment'
+                +---binop: 'Subscript'
+                |   +---Var: 'b'
+                |   +---Var: 'i'
+                +---binop: 'Subscript'
+                    +---Var: 'c'
+                    +---Var: 'i'
+
+    .decl       a            
+    .decl       i            
+    .decl       b            
+    .decl       c            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---binop: 'Subscript'
+                                     |   +---Var: 'a'
+    PUSH        a                    |   |
+                                     |   +---Var: 'i'
+    PUSH        i                    |   
+    AddIndex                         |   
+                                     +---binop: 'Assignment'
+                                         +---binop: 'Subscript'
+                                         |   +---Var: 'b'
+    PUSH        b                        |   |
+                                         |   +---Var: 'i'
+    PUSH        i                        |   
+    AddIndex                             |   
+                                         +---binop: 'Subscript'
+                                             +---Var: 'c'
+    PUSH        c                            |
+                                             +---Var: 'i'
+    PUSH        i                            
+    Subscript                                
+    ISTORE                                   
+    IPOP                                     
+

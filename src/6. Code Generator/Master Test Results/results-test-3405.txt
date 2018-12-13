@@ -1,0 +1,29 @@
+------ Test: 3405 ------		p = &a[i];
+
+p = &a[i];
+          ^
+results-test-3405.txt: Parse End on line 1 (character offset 10)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'p'
+            +---unop: 'AddressOf'
+                +---binop: 'Subscript'
+                    +---Var: 'a'
+                    +---Var: 'i'
+
+    .decl       p            
+    .decl       a            
+    .decl       i            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---Var: 'p'
+                                     +---unop: 'AddressOf'
+                                         +---binop: 'Subscript'
+                                             +---Var: 'a'
+    PUSH        a                            |
+                                             +---Var: 'i'
+    PUSH        i                            
+    AddIndex                                 
+    POP         p                            
+

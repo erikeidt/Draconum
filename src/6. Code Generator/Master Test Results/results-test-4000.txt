@@ -1,0 +1,11 @@
+------ Test: 4000 ------		L1: goto L1;
+
+L1: goto L1;
+            ^
+results-test-4000.txt: Parse End on line 1 (character offset 12)
+
+    +---Label: L1
+        +---Statement	Goto: L1
+
+L0:
+	JUMP	L1

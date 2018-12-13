@@ -1,0 +1,48 @@
+------ Test: 2004 ------		for(;;) { if ( a && b ) { c=1; break; } }
+
+for(;;) { if ( a && b ) { c=1; break; } }
+                                         ^
+results-test-2004.txt: Parse End on line 1 (character offset 41)
+
+    +---For Statement
+        +---Body	Block Statement
+            +---If-Then Statement
+                +---Condition	binop: 'ShortCircutAnd'
+                |   +---Var: 'a'
+                |   +---Var: 'b'
+                +---ThenPart	Block Statement
+                    +---Expression Statement
+                    |   +---binop: 'Assignment'
+                    |       +---Var: 'c'
+                    |       +---num: '1'
+                    +---Break Statement
+
+    .decl       a            
+    .decl       b            
+    .decl       c            
+                             +---For Statement
+L0:                          
+                                 +---Body	Block Statement
+                                     +---If-Then Statement
+                                         +---Condition	binop: 'ShortCircutAnd'
+                                         |   +---Var: 'a'
+    PUSH        a                        |   |
+    B.FALSE     L3                       |   |
+                                         |   +---Var: 'b'
+    PUSH        b                        |   
+    B.FALSE     L3                       |   
+                                         +---ThenPartBlock Statement
+                                             +---Expression Statement
+                                             |   +---binop: 'Assignment'
+                                             |       +---Var: 'c'
+                                             |       +---num: '1'
+    PUSH        #1                           |       
+    POP         c                            |       
+                                             +---Break Statement
+    JUMP        L2                           
+# if-then rejoin                             
+L3:                                          
+L1:                                          
+    JUMP        L0                           
+L2:                                          
+

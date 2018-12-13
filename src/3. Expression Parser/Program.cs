@@ -103,7 +103,7 @@ namespace com.erikeidt.Draconum.ExpressionParserTest
 				tw.WriteLine ();
 				var utf8Stream = CodePointStream.FromString ( exprToParse );
 				var scanner = new ScanIt ( utf8Stream, testName, tw );
-				var parser = new ExpressionParser ( scanner );
+				var parser = new ExpressionParser ( scanner, new NotMuchOfASymbolTable () );
 				var result = terminatingChar >= 0 ?
 					parser.TryParse ( new CodePoint ( (byte) terminatingChar ) ) :
 					parser.TryParse ();

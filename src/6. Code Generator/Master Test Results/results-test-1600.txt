@@ -1,0 +1,29 @@
+------ Test: 1600 ------		s += a[i];
+
+s += a[i];
+          ^
+results-test-1600.txt: Parse End on line 1 (character offset 10)
+
+    +---Expression Statement
+        +---binop: 'AssignmentAddition'
+            +---Var: 's'
+            +---binop: 'Subscript'
+                +---Var: 'a'
+                +---Var: 'i'
+
+    .decl       s            
+    .decl       a            
+    .decl       i            
+                             +---Expression Statement
+                                 +---binop: 'AssignmentAddition'
+                                     +---Var: 's'
+    PUSH        s                    |
+                                     +---binop: 'Subscript'
+                                         +---Var: 'a'
+    PUSH        a                        |
+                                         +---Var: 'i'
+    PUSH        i                        
+    Subscript                            
+    Addition                             
+    POP         s                        
+

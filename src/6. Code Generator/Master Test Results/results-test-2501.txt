@@ -1,0 +1,9 @@
+------ Test: 2501 ------		continue;
+
+continue;
+         ^
+results-test-2501.txt: Parse End on line 1 (character offset 9)
+
+break not nested within a break'able statement
+
+

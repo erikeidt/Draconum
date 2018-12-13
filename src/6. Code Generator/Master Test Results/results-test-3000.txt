@@ -1,0 +1,61 @@
+------ Test: 3000 ------		for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }
+
+for ( i = 0; i < 100; i++ ) { if ( a[i] == 32 ) break; }
+                                                        ^
+results-test-3000.txt: Parse End on line 1 (character offset 56)
+
+    +---For Statement
+        +---Initialization	binop: 'Assignment'
+        |   +---Var: 'i'
+        |   +---num: '0'
+        +---Condition	binop: 'LessThan'
+        |   +---Var: 'i'
+        |   +---num: '100'
+        +---Increment	unop: 'PostfixIncrement'
+        |   +---Var: 'i'
+        +---Body	Block Statement
+            +---If-Then Statement
+                +---Condition	binop: 'EqualEqual'
+                |   +---binop: 'Subscript'
+                |   |   +---Var: 'a'
+                |   |   +---Var: 'i'
+                |   +---num: '32'
+                +---ThenPart	Break Statement
+
+    .decl       i            
+    .decl       a            
+                             +---For Statement
+                                 +---Initialization	binop: 'Assignment'
+                                 |   +---Var: 'i'
+                                 |   +---num: '0'
+    PUSH        #0               |   
+    POP         i                |   
+L0:                              |   
+                                 +---Condition	binop: 'LessThan'
+                                 |   +---Var: 'i'
+    PUSH        i                |   |
+                                 |   +---num: '100'
+    PUSH        #100             |   
+    B.GE        L2               |   
+                                 +---Body	Block Statement
+                                 |   +---If-Then Statement
+                                 |       +---If-Goto	binop: 'EqualEqual'
+                                 |       |   +---binop: 'Subscript'
+                                 |       |   |   +---Var: 'a'
+    PUSH        a                |       |   |   |
+                                 |       |   |   +---Var: 'i'
+    PUSH        i                |       |   |   
+    Subscript                    |       |   |   
+                                 |       |   +---num: '32'
+    PUSH        #32              |       |   
+    B.EQ        L2               |       |   
+                                 |       +---<then part branch incorporated into preceding condition>
+L1:                              |       
+                                 +---Increment	unop: 'PostfixIncrement'
+                                     +---Var: 'i'
+    PUSH        i                    
+    INC                              
+    POP         i                    
+    JUMP        L0                   
+L2:                                  
+

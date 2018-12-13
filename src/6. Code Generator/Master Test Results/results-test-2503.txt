@@ -1,0 +1,15 @@
+------ Test: 2503 ------		return 1;
+
+return 1;
+         ^
+results-test-2503.txt: Parse End on line 1 (character offset 9)
+
+    +---Return Statement
+        +---Return Value	num: '1'
+
+                             +---Return Statement
+# return statement           
+                                 +---num: '1'
+    PUSH        #1               
+    RET                          
+

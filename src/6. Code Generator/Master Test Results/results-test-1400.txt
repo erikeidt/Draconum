@@ -1,0 +1,31 @@
+------ Test: 1400 ------		a() && b();
+
+a() && b();
+           ^
+results-test-1400.txt: Parse End on line 1 (character offset 11)
+
+    +---Expression Statement
+        +---binop: 'ShortCircutAnd'
+            +---binop: 'FunctionCall'
+            |   +---Var: 'a'
+            |   +---<empty>
+            +---binop: 'FunctionCall'
+                +---Var: 'b'
+                +---<empty>
+
+    .decl       a            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'ShortCircutAnd'
+                                     +---binop: 'FunctionCall'
+                                     |   +---Var: 'a'
+                                     |   +---<empty>
+    CALL        a, #0                |   
+    B.FALSE     L0                   |   
+                                     +---binop: 'FunctionCall'
+                                         +---Var: 'b'
+                                         +---<empty>
+    CALL        b, #0                    
+    POP                                  
+L0:                                      
+

@@ -1,0 +1,9 @@
+------ Test: 4002 ------		{ L1: }
+
+{ L1: }
+       ^
+results-test-4002.txt: Parse End on line 1 (character offset 7)
+
+    +---Block Statement
+        +---Label: L1
+

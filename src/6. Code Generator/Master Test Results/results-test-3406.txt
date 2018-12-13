@@ -1,0 +1,31 @@
+------ Test: 3406 ------		*&a[i] = i;
+
+*&a[i] = i;
+           ^
+results-test-3406.txt: Parse End on line 1 (character offset 11)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---unop: 'Indirection'
+            |   +---unop: 'AddressOf'
+            |       +---binop: 'Subscript'
+            |           +---Var: 'a'
+            |           +---Var: 'i'
+            +---Var: 'i'
+
+    .decl       a            
+    .decl       i            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---unop: 'Indirection'
+                                     |   +---<skipped> unop: 'AddressOf'
+                                     |       +---binop: 'Subscript'
+                                     |           +---Var: 'a'
+    PUSH        a                    |           |
+                                     |           +---Var: 'i'
+    PUSH        i                    |           
+    AddIndex                         |           
+                                     +---Var: 'i'
+    PUSH        i                    
+    IPOP                             
+

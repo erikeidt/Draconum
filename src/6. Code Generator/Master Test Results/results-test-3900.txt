@@ -1,0 +1,99 @@
+------ Test: 3900 ------		for ( i = 0; i < 100; i++ ) { if ( a[i] != b[i] ) break; s += a[i] * b[i]; }
+
+for ( i = 0; i < 100; i++ ) { if ( a[i] != b[i] ) break; s += a[i] * b[i]; }
+                                                                            ^
+results-test-3900.txt: Parse End on line 1 (character offset 76)
+
+    +---For Statement
+        +---Initialization	binop: 'Assignment'
+        |   +---Var: 'i'
+        |   +---num: '0'
+        +---Condition	binop: 'LessThan'
+        |   +---Var: 'i'
+        |   +---num: '100'
+        +---Increment	unop: 'PostfixIncrement'
+        |   +---Var: 'i'
+        +---Body	Block Statement
+            +---If-Then Statement
+            |   +---Condition	binop: 'NotEqual'
+            |   |   +---binop: 'Subscript'
+            |   |   |   +---Var: 'a'
+            |   |   |   +---Var: 'i'
+            |   |   +---binop: 'Subscript'
+            |   |       +---Var: 'b'
+            |   |       +---Var: 'i'
+            |   +---ThenPart	Break Statement
+            +---Expression Statement
+                +---binop: 'AssignmentAddition'
+                    +---Var: 's'
+                    +---binop: 'Multiplication'
+                        +---binop: 'Subscript'
+                        |   +---Var: 'a'
+                        |   +---Var: 'i'
+                        +---binop: 'Subscript'
+                            +---Var: 'b'
+                            +---Var: 'i'
+
+    .decl       i            
+    .decl       a            
+    .decl       b            
+    .decl       s            
+                             +---For Statement
+                                 +---Initialization	binop: 'Assignment'
+                                 |   +---Var: 'i'
+                                 |   +---num: '0'
+    PUSH        #0               |   
+    POP         i                |   
+L0:                              |   
+                                 +---Condition	binop: 'LessThan'
+                                 |   +---Var: 'i'
+    PUSH        i                |   |
+                                 |   +---num: '100'
+    PUSH        #100             |   
+    B.GE        L2               |   
+                                 +---Body	Block Statement
+                                 |   +---If-Then Statement
+                                 |   |   +---If-Goto	binop: 'NotEqual'
+                                 |   |   |   +---binop: 'Subscript'
+                                 |   |   |   |   +---Var: 'a'
+    PUSH        a                |   |   |   |   |
+                                 |   |   |   |   +---Var: 'i'
+    PUSH        i                |   |   |   |   
+    Subscript                    |   |   |   |   
+                                 |   |   |   +---binop: 'Subscript'
+                                 |   |   |       +---Var: 'b'
+    PUSH        b                |   |   |       |
+                                 |   |   |       +---Var: 'i'
+    PUSH        i                |   |   |       
+    Subscript                    |   |   |       
+    B.NE        L2               |   |   |       
+                                 |   |   +---<then part branch incorporated into preceding condition>
+                                 |   +---ElsePart	Expression Statement
+                                 |       +---binop: 'AssignmentAddition'
+                                 |           +---Var: 's'
+    PUSH        s                |           |
+                                 |           +---binop: 'Multiplication'
+                                 |               +---binop: 'Subscript'
+                                 |               |   +---Var: 'a'
+    PUSH        a                |               |   |
+                                 |               |   +---Var: 'i'
+    PUSH        i                |               |   
+    Subscript                    |               |   
+                                 |               +---binop: 'Subscript'
+                                 |                   +---Var: 'b'
+    PUSH        b                |                   |
+                                 |                   +---Var: 'i'
+    PUSH        i                |                   
+    Subscript                    |                   
+    Multiplication               |                   
+    Addition                     |                   
+    POP         s                |                   
+L1:                              |                   
+                                 +---Increment	unop: 'PostfixIncrement'
+                                     +---Var: 'i'
+    PUSH        i                    
+    INC                              
+    POP         i                    
+    JUMP        L0                   
+L2:                                  
+

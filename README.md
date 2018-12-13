@@ -3,14 +3,24 @@ Experiments in Compiler Technology
 
 This project seeks to explore practical and efficient compiler technology & techiques.
 
+The projects herein are designed to be small, straightforward, simple, and readable.
+
 For starters, it contains a high performance non-recursive hand-written expression parser 
 that is capable of the rich operators of standard C, including unary, binary operators,
-function calls, array references, etc...
+function calls, array references, etc...  The expression parser project focuses just on
+parsing expressions, without concern for parsing statements, declartions, or generating code.
 
-I developed the initial expression parser in the 70's.  A few years later I put it together
-a simple scanner. I've been using this approach to parsing & scanning for decades!
+The code generation project focuses on generating simple code from an abstract syntax tree,
+though borrows the tatement parser, which borrows the expression parser, which borrows the
+scanner.
 
-The expression parsing approach is a two-state two-stack model. The first state is the 
+I developed this initial expression parser technique in the 70's.  A few years later I put it 
+together a simple scanner. I've been using this approach to parsing & scanning for decades!
+
+The heart of the expression parser (ParseExpressionToStack) takes under 200 lines of code
+for all the operators in C.  
+
+Its approach is a two-state two-stack model.  The first state is the 
 Unary State, and the second is the Binary State.  The two stacks are operators and operands.
 When parsing is completed, the result is the last tree operand remaining on the operand stack.
 As I mentioned, it uses a non-recursive approach to parsing expressions.  Typically, it sees
@@ -21,7 +31,7 @@ re-examing the same tokens repeatedly.  This is particularly at issue when the l
 question has a large range of operator precedences.  The deeper the precedences the more 
 re-examining of each token.)
 
-The scanner is super simple: it doesn't assemble tokens but rather only variables & constants,
+The scanner is super simple: it doesn't assemble tokens but rather only variables & constants 
 like string literals and numbers.  We leave operator token parsing to the parser, which it does
 in context.
 
@@ -44,6 +54,8 @@ Current Status of this project:
 Future endeavors
 * Function & Type Declarations
 * Scoping Symbol Table
+* Instruction Set Architecture
+* Simulator/Debugger
 
 Some of the value of this content is in being able 
 * to correlate small code sequences in C-like language (e.g. if statements, loop statements; && and || operators) and how they relate to assembly language

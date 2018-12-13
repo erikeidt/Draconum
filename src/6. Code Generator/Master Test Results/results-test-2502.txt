@@ -1,0 +1,12 @@
+------ Test: 2502 ------		return;
+
+return;
+       ^
+results-test-2502.txt: Parse End on line 1 (character offset 7)
+
+    +---Return Statement (Void)
+
+                             +---Return Statement (Void)
+# return statement           
+    RET                      
+

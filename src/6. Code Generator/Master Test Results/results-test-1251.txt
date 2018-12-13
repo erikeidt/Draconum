@@ -1,0 +1,40 @@
+------ Test: 1251 ------		e = (a || b) + 3;
+
+e = (a || b) + 3;
+                 ^
+results-test-1251.txt: Parse End on line 1 (character offset 17)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'e'
+            +---binop: 'Addition'
+                +---binop: 'ShortCircutOr'
+                |   +---Var: 'a'
+                |   +---Var: 'b'
+                +---num: '3'
+
+    .decl       e            
+    .decl       a            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---Var: 'e'
+                                     +---binop: 'Addition'
+                                         +---binop: 'ShortCircutOr'
+                                         |   +---Var: 'a'
+    PUSH        a                        |   |
+    B.TRUE      L1                       |   |
+                                         |   +---Var: 'b'
+    PUSH        b                        |   
+    B.FALSE     L0                       |   
+L1:                                      |   
+    PUSH        #1                       |   
+    JUMP        L2                       |   
+L0:                                      |   
+    PUSH        #0                       |   
+L2:                                      |   
+                                         +---num: '3'
+    PUSH        #3                       
+    Addition                             
+    POP         e                        
+

@@ -1,0 +1,9 @@
+------ Test: 4000 ------		L1: ;
+
+L1: ;
+     ^
+results-test-4000.txt: Parse End on line 1 (character offset 5)
+
+    +---Label: L1
+        +---Statement	Empty Statement
+

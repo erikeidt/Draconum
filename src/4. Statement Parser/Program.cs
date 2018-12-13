@@ -44,6 +44,13 @@ namespace com.erikeidt.Draconum.StatementParserTest
 			Test ( 3001, "for (;;) { if ( a ) b=1; }" );
 			Test ( 3002, "for (;;)" );
 
+			Test ( 4000, "L1: ;" );
+			Test ( 4001, "L1: a = b;"  );
+			Test ( 4002, "{ L1: }" );
+			Test ( 4003, "L1: a ? b : c;" );
+			Test ( 4004, "L1 + L2: ;" );
+
+
 			System.Console.WriteLine ();
 			System.Console.WriteLine ( "Tests run: {0}, Test Passed: {1}", _testsRun, _testsPassed );
 		}
@@ -74,7 +81,7 @@ namespace com.erikeidt.Draconum.StatementParserTest
 				tw.WriteLine ();
 				var utf8Stream = CodePointStream.FromString ( exprToParse );
 				var scanner = new ScanIt ( utf8Stream, testName, tw );
-				var parser = new StatementParser ( scanner );
+				var parser = new StatementParser ( scanner, new NotMuchOfASymbolTable () );
 				var result = parser.TryParse ();
 				scanner.Message ( "Parse End" );
 				tw.WriteLine ();

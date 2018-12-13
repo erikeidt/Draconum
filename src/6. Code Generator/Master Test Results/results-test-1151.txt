@@ -1,0 +1,25 @@
+------ Test: 1151 ------		(a || b) + 3;
+
+(a || b) + 3;
+             ^
+results-test-1151.txt: Parse End on line 1 (character offset 13)
+
+    +---Expression Statement
+        +---binop: 'Addition'
+            +---binop: 'ShortCircutOr'
+            |   +---Var: 'a'
+            |   +---Var: 'b'
+            +---num: '3'
+
+    .decl       a            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'Addition'
+                                     +---binop: 'ShortCircutOr'
+                                     |   +---Var: 'a'
+    PUSH        a                    |   |
+    B.TRUE      L0                   |   |
+                                     |   +---Var: 'b'
+L0:                                  |   
+                                     +---num: '3'
+

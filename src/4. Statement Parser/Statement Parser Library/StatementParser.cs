@@ -29,14 +29,16 @@ namespace com.erikeidt.Draconum
 
 		private readonly ScanIt _scanner;
 		private readonly ExpressionParser _expressionParser;
+		private readonly ISymbolTable _symbolTable;
 
 		private readonly Stack<BreakableStatement> _breakables = new Stack<BreakableStatement> ();
 		private readonly Stack<ContinueableStatement> _continueables = new Stack<ContinueableStatement> ();
 
-		public StatementParser ( ScanIt scanner )
+		public StatementParser ( ScanIt scanner, ISymbolTable symbolTable )
 		{
 			_scanner = scanner;
-			_expressionParser = new ExpressionParser ( scanner );
+			_expressionParser = new ExpressionParser ( scanner, symbolTable );
+			_symbolTable = symbolTable;
 		}
 
 		public ResultOrErrorList<AbstractStatementNode> TryParse ()
@@ -72,8 +74,25 @@ namespace com.erikeidt.Draconum
 						return ParseGotoStatement ();
 
 					// look for labeled statement as in label:
-					var ans = _expressionParser.Parse ( new CodePoint ( (byte) ':' ) );
+					// 
+					var ans = _expressionParser.Parse ( terminatingCharacter: new CodePoint ( (byte) ':' ) );
+					// this a pattern that admits
+					//		Label:
+					//	if the pattern doesn't fit, then the ExpectToken (';') just below will issue an error
 					if ( ans is VariableTreeNode label && _scanner.IfToken ( ':' ) ) {
+						if ( _scanner.IfTokenNoAdvance ( '}' ) )
+						{
+							// the following it is not legal or really acceptable:
+							//		{ if ( cond ) L1: }
+							//	so some grammars disallow
+							//		L1 : }
+							//	requiring input like this instead to resolve issues
+							//		L1: ; }
+							// however, when a label is used at the end of the block that contains it, e.g.
+							//		abc; ... L1 : }
+							//	this seems like an acceptable construct, and indeed some languages/grammars allow this.
+							return new LabelStatement ( new UserLabel ( label.Value ), null );
+						}
 						var stmt = ParseStatement ();
 						return new LabelStatement ( new UserLabel ( label.Value ), stmt );
 					}
@@ -85,7 +104,7 @@ namespace com.erikeidt.Draconum
 					_scanner.Advance ();
 					return new EmptyStatement ();
 
-				case -1:
+				case CodePoint.EofValue:
 					_scanner.Error ( "expected statement" );
 					break;
 
@@ -106,6 +125,7 @@ namespace com.erikeidt.Draconum
 
 		private AbstractStatementNode ParseBlockStatement ()
 		{
+			_symbolTable.EnterScope ();
 			var list = new List<AbstractStatementNode> ();
 
 			_scanner.ExpectToken ( '{' ); // "{ expected for block statement" )
@@ -113,7 +133,10 @@ namespace com.erikeidt.Draconum
 			for ( ; ; )
 			{
 				if ( _scanner.IfToken ( '}' ) )
+				{
+					_symbolTable.ExitScope ();
 					return new BlockStatement ( list );
+				}
 
 				var stmt = ParseStatement ();
 				list.Add ( stmt );

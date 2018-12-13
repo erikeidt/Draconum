@@ -1,0 +1,24 @@
+------ Test: 3403 ------		i = *&a;
+
+i = *&a;
+        ^
+results-test-3403.txt: Parse End on line 1 (character offset 8)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---Var: 'i'
+            +---unop: 'Indirection'
+                +---unop: 'AddressOf'
+                    +---Var: 'a'
+
+    .decl       i            
+    .decl       a            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---Var: 'i'
+                                     +---unop: 'Indirection'
+                                         +---<skipped> unop: 'AddressOf'
+                                             +---Var: 'a'
+    PUSH        a                            
+    POP         i                            
+

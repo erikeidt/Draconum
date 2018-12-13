@@ -564,6 +564,7 @@ namespace com.erikeidt.Draconum
 		///				if ( expression ) 
 		///					assignment;
 		///		both the ( and the ) and the ; can be consumed this way
+        ///		NOTE: differs from IfCharacter by trimming whitespace
 		/// </summary>
 		/// <param name="what"></param>
 		/// <returns>

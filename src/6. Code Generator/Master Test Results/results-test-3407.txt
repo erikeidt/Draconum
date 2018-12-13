@@ -1,0 +1,38 @@
+------ Test: 3407 ------		*(a+i) = *(b+i);
+
+*(a+i) = *(b+i);
+                ^
+results-test-3407.txt: Parse End on line 1 (character offset 16)
+
+    +---Expression Statement
+        +---binop: 'Assignment'
+            +---unop: 'Indirection'
+            |   +---binop: 'Addition'
+            |       +---Var: 'a'
+            |       +---Var: 'i'
+            +---unop: 'Indirection'
+                +---binop: 'Addition'
+                    +---Var: 'b'
+                    +---Var: 'i'
+
+    .decl       a            
+    .decl       i            
+    .decl       b            
+                             +---Expression Statement
+                                 +---binop: 'Assignment'
+                                     +---unop: 'Indirection'
+                                     |   +---binop: 'Addition'
+                                     |       +---Var: 'a'
+    PUSH        a                    |       |
+                                     |       +---Var: 'i'
+    PUSH        i                    |       
+    Addition                         |       
+                                     +---unop: 'Indirection'
+                                         +---<skipped> binop: 'Addition'
+                                             +---Var: 'b'
+    PUSH        b                            |
+                                             +---Var: 'i'
+    PUSH        i                            
+    Subscript                                
+    IPOP                                     
+
