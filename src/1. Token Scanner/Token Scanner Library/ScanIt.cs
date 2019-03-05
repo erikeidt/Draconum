@@ -62,13 +62,15 @@ namespace com.erikeidt.Draconum
 		private readonly System.IO.TextWriter _lg;
 
 		private int _line;
+		private int _indentationLevel;
+		private bool _nonBlankSeen;
 
 		private CodePoint _curr;
 		private int _cursor;
 		private int _currTokenCursorStart;
-
 		private int _currLineMark;
-		private int _nextor;
+
+		private int _nextCursor;
 		private int _nextLineMark;
 
 		private CodePoint _next;
@@ -90,7 +92,8 @@ namespace com.erikeidt.Draconum
 			_lg = lg;
 			_line = 0;
 			_currTokenCursorStart = _cursor = _currLineMark = -2;
-			_nextor = _nextLineMark = -1;
+			_nextCursor = _nextLineMark = -1;
+			_indentationLevel = 0;
 			_tokenModeStack = new Stack<TokenModeEnum> ();
 			PushMode ( TokenModeEnum.Illegal );
 			PushMode ( TokenModeEnum.Normal );
@@ -157,32 +160,45 @@ namespace com.erikeidt.Draconum
 		private void ReadIntoNext ()
 		{
 			if ( !_next.AtEOF () ) {
-				_nextor++;
+				_nextCursor++;
 				_next = _cps.Read ();
 			}
 		}
 
 		public void Advance ()
 		{
-			if ( !_curr.AtEOF () ) {
-				_cursor = _nextor;
+			if ( ! _curr.AtEOF (  ) )
+			{
+				_cursor = _nextCursor;
 				_curr = _next;
 				_currLineMark = _nextLineMark;
-				ReadIntoNext ();
+				ReadIntoNext ( );
 
-				if ( _curr.Value == '\r' ) {
-					_curr = new CodePoint ( (byte) '\n' );
-					_line++;
-					_nextLineMark = _nextor;
-					if ( _next.Value == '\n' ) {
-						ReadIntoNext ();
-						_nextLineMark = _nextor;
-					}
-					HandlePPDirectivesFromNormalMode ();
-				} else if ( _curr.Value == '\n' ) {
-					_line++;
-					_nextLineMark = _nextor;
-					HandlePPDirectivesFromNormalMode ();
+				switch ( _curr.Value )
+				{
+					case '\r':
+						_curr = new CodePoint ( ( byte ) '\n' );
+						if ( _next.Value == '\n' )
+							ReadIntoNext ( );
+						goto case '\n';
+					case '\n':
+						_line++;
+						_nextLineMark = _nextCursor;
+						_indentationLevel = 0;
+						_nonBlankSeen = false;
+						HandlePPDirectivesFromNormalMode ( );
+						break;
+					case ' ':
+						_indentationLevel++;
+						break;
+					case '\t':
+						if ( (_indentationLevel & 7) != 0 )
+							throw new CompilationException ( "tab after space is illegal for indentation" );
+						_indentationLevel += 8;	// tab level
+						break;
+					default:
+						_nonBlankSeen = true;
+						break;
 				}
 			}
 		}
