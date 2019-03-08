@@ -138,7 +138,7 @@ namespace com.erikeidt.Draconum.CodeGeneratorTest
 			var testName = string.Format ( "results-test-{0}.txt", testNum );
 			using ( var tw = File.CreateText ( _testDir + testName ) ) {
 				string tc = terminatingChar >= 0 ? ((char) terminatingChar).ToString () : "";
-				tw.WriteLine ( "------ Test: {0} ------\t{1}\t{2}", testNum, tc, exprToParse );
+				tw.WriteLine ( "------ Test: {0} ------\t{1}\t{2}", testNum, tc, exprToParse.Replace("\n", "\r\n" ) );
 				tw.WriteLine ();
 				var utf8Stream = CodePointStream.FromString ( exprToParse );
 				var scanner = new ScanIt ( utf8Stream, testName, tw );

@@ -64,7 +64,7 @@ namespace com.erikeidt.Draconum
 
 		public override void PrettyPrintHeader ( string prolog = "" )
 		{
-			WriteLine ( string.Format ( "string: \"{0}\"", Value ), prolog );
+			WriteLine ( string.Format ( "string: \"{0}\"", Value.ToString().Replace("\n", "\r\n" ) ), prolog );
 		}
 	}
 

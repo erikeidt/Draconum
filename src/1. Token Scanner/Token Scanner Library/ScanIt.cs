@@ -205,6 +205,9 @@ namespace com.erikeidt.Draconum
 
 		public bool IsEOF ()
 		{
+			if ( _identifierPushedBack.HasValue )
+				return false;
+
 			Trim ();
 			return _curr.AtEOF ();
 		}
@@ -216,6 +219,9 @@ namespace com.erikeidt.Draconum
 
 		private bool Trim ()
 		{
+			if ( _identifierPushedBack.HasValue )
+				return false;
+
 			var ans = false;
 			for ( ; ; )
 			{
@@ -569,6 +575,9 @@ namespace com.erikeidt.Draconum
 
 		public bool IfTokenNoAdvance ( char what )
 		{
+			if ( _identifierPushedBack.HasValue )
+				return false;
+
 			Trim ();
 			if ( _curr.Value != what )
 				return false;
@@ -589,6 +598,9 @@ namespace com.erikeidt.Draconum
 		/// </returns>
 		public bool IfToken ( char what )
 		{
+			if ( _identifierPushedBack.HasValue )
+				return false;
+
 			Trim ();
 			if ( _curr.Value != what )
 				return false;
@@ -610,6 +622,9 @@ namespace com.erikeidt.Draconum
 		/// </returns>
 		public bool IfCharacter ( char what )   // 
 		{
+			if ( _identifierPushedBack.HasValue )
+				return false;
+
 			if ( _curr.Value != what )
 				return false;
 			Advance ();
@@ -625,6 +640,9 @@ namespace com.erikeidt.Draconum
 		public void ExpectToken ( char what )
 		{
 			Trim ();
+			if ( _identifierPushedBack.HasValue )
+				Error ( "Expected character: '" + what + "' instead of identifier" );
+
 			if ( _curr.Value != what ) {
 				var val = unchecked((char) _curr.Value);
 				Error ( "Expected character: '" + what + "' instead of: '" + val + "'" );
